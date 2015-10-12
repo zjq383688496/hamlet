@@ -1,0 +1,171 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>会员中心</title>
+
+<link rel="icon" href="http://static.hamlet365.com/resources/shop/images/favicon.ico" type="image/x-icon" />
+<link href="http://static.hamlet365.com/resources/shop/css/common.css" rel="stylesheet" type="text/css" />
+<link href="http://static.hamlet365.com/resources/shop/css/member.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://static.hamlet365.com/resources/shop/js/jquery.js"></script>
+<script type="text/javascript" src="/resources/shop/js/common.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+$().ready(function() {
+
+	var $headerLogin = $("#headerLogin");
+	var $headerRegister = $("#headerRegister");
+	var $headerUsername = $("#headerUsername");
+	var $headerLogout = $("#headerLogout");
+	var $productSearchForm = $("#productSearchForm");
+	var $keyword = $("#productSearchForm input");
+	var defaultKeyword = "";
+	
+	var username = getCookie("username");
+	if (username != null) {
+		$headerUsername.text("您好, " + username).show();
+		$headerLogout.show();
+	} else {
+		$headerLogin.show();
+		$headerRegister.show();
+	}
+	
+	$keyword.focus(function() {
+		if ($keyword.val() == defaultKeyword) {
+			$keyword.val("");
+		}
+	});
+	
+	$keyword.blur(function() {
+		if ($keyword.val() == "") {
+			$keyword.val(defaultKeyword);
+		}
+	});
+	
+	$productSearchForm.submit(function() {
+		if ($.trim($keyword.val()) == "" || $keyword.val() == defaultKeyword) {
+			return false;
+		}
+	});
+
+});
+</script>
+
+<!-- header -->
+<div class="header"></div>
+
+<div class="container member">
+
+	<div class="menu">
+		<div class="title">
+			<a href="/member/index.action">会员中心</a>
+		</div>
+		<div class="content">
+			<dl>
+				<dt>交易信息</dt>
+				<dd>
+					<a href="/member/order/list.action">我的订单</a>
+				</dd>
+				<dd>
+					<a href="/member/coupon_code/list.action">我的优惠券</a>
+				</dd>
+			</dl>
+		</div>
+		<div class="bottom"></div>
+	</div>
+
+	<div class="span18 last">
+		<div class="index">
+			<div class="top clearfix">
+				<div class="t-left">
+					<div class="user-info">
+						<div class="user-img"><img src="http://pic4.ule.com/pic/user_800108303/product/prd20141205/35a3055e354c1d8f_p800x800_s.jpg"></div>
+						<div class="name">
+							勇气100%
+							<span class="user-type">月度会员</span>
+						</div>
+						<div class="price">账户金币：<em>0</em><a href="">明细</a></div>
+						<div class="mobile">手机未绑定<a href="">绑定手机</a></div>
+						<div class="mail on">邮箱已验证<a href="">验证邮箱</a></div>
+					</div>
+					<div class="order-info">
+						<ul>
+							<li><a href="/">待付款<i></i></a></li>
+							<li><a href="/">待发货<i>1</i></a></li>
+							<li><a href="/">待收货<i>2</i></a></li>
+							<li><a href="/">待评价<i>3</i></a></li>
+							<li><a href="/">退款<i></i></a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="t-right">
+					<div class="tr-l">
+						<p>加入Hamlet已经</p>
+						<p><i>1</i>年<i>96</i>天</p>
+					</div>
+					<div class="tr-r">
+						<div class="user-title">购物达人</div>
+						<p>我买东西，从不看价格<br>在Hamlet，本年度共支出<i class="red">1800.50</i>元</p>
+						<p style="margin-top: 15px;">您<span class="red">购物车选购的商品</span>可节约支出<i class="green">180.05</i>元相当于<span class="red">XXXX</span>一件哦！相信您比<span class="red">57.03%</span>的用户更懂得生活！<a href="/" class="red"><b>开通会员>></b></a></p>
+					</div>
+				</div>
+			</div>
+			<div class="order-list">
+				<div class="title">最新订单</div>
+				<div class="order-list-box">
+					<ul>
+						<li>
+							<div class="goods">
+								<p class="tit">
+									订单：10000000000
+									<span class="green">已签收</span>
+								</p>
+								<div class="info">
+									<a href="/" target="_blank" class="img"><img src=""></a>
+									<a href="/" target="_blank" class="name">意大利进口 费列罗巧克力婚礼盒装576粒结婚喜糖</a>
+									<p class="price">¥ 15.00</p>
+									<a href="/" target="_blank" class="btn-buy">再次购买</a>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="goods">
+								<p class="tit">
+									订单：10000000000
+									<span class="green">已签收</span>
+								</p>
+								<div class="info">
+									<a href="/" target="_blank" class="img"><img src=""></a>
+									<a href="/" target="_blank" class="name">意大利进口 费列罗巧克力婚礼盒装576粒结婚喜糖</a>
+									<p class="price">¥ 15.00</p>
+									<a href="/" target="_blank" class="btn-buy">再次购买</a>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="goods">
+								<p class="tit">
+									订单：10000000000
+									<span class="green">已签收</span>
+								</p>
+								<div class="info">
+									<a href="/" target="_blank" class="img"><img src=""></a>
+									<a href="/" target="_blank" class="name">意大利进口 费列罗巧克力婚礼盒装576粒结婚喜糖</a>
+									<p class="price">¥ 15.00</p>
+									<a href="/" target="_blank" class="btn-buy">再次购买</a>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- footer -->
+<div class="footer"></div>
+</body>
+</html>

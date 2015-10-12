@@ -1,0 +1,488 @@
+@charset "utf-8";
+
+/*
+* 
+ * 
+ * 
+ * 
+ * Style - Index
+ * 
+ */
+
+/* ---------- Index ---------- */
+body {
+	background-color: #f3f3f3;
+}
+div.topslide {
+	width: 100%;
+	position: relative;
+}
+
+div.slider {
+	width: 100%;
+	height: 400px;
+	position: relative;
+	overflow: hidden;
+}
+
+div.slider a {
+	display: block;
+	width: 100%;
+	height: 400px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+div.slider img {
+	display: block;
+	width: 1200px;
+	height: 400px;
+	margin: 0 auto;
+}
+
+div.slider-control {
+	position: absolute;
+	left: 50%;
+	bottom: 22px;
+	z-index: 6;
+	padding: 9px;
+	border-radius: 100px;
+	background-color: rgba(0, 0 , 0, .2);
+	transform: translateX(-50%);
+}
+
+div.slider-control a {
+	width: 10px;
+	height: 10px;
+	display: inline-block;
+	margin: 0 5px;
+	border-radius: 100%;
+	overflow: hidden;
+	text-indent: -9999px;
+	background-color: #fff;
+}
+
+div.slider-control a:hover,
+div.slider-control a.active {
+	background-color: #c50637;
+}
+
+.sliderBox #icon_num a,
+.sliderBox .control a,
+.w-btn, .w-tit .txt,
+.w-tit2 .big,
+#fslist .btmbg,
+#fslist .topbg,
+#rightBar .redpackage,
+.m-rightbar li a,
+.m-shopcartnew .wrap,
+.m-slogn,
+.m-slogn-new,
+.w-icon {
+    background: url(http://mm.bst.126.net/images/index/icon1_8d9a12e.png) no-repeat;
+}
+
+.w-btn {
+    display: block;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    text-indent: -1000px;
+    background-position: -439px -1px;
+}
+.w-icon {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+}
+.m-hotsale .w-icon-20 {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+}
+.w-icon-20 {
+    width: 80px;
+    height: 88px;
+    background-position: 0 -654px;
+}
+.w-tit1 {
+    font-size: 18px;
+    color: #333;
+    line-height: 32px;
+    margin: 34px 0 12px;
+}
+
+.w-tit1 .big {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.m-hotsale {
+    position: relative;
+    zoom: 1;
+    margin: 0 0 20px;
+    height: 330px;
+    font-size: 14px;
+    color: #fff;
+    box-shadow: 0 0 1px #ddd;
+}
+
+.m-hotsale-1,.m-hotsale-2 {
+    color: #999
+}
+
+.m-hotsale .pic, .m-hotsale .pic:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.m-hotsale .pic {
+    position: relative;
+    zoom: 1;
+    float: left;
+    width: 600px;
+    cursor: pointer;
+}
+.m-hotsale .pic img {
+	width: 600px;
+	height: 330px;
+}
+.foreshowBox {
+    position: relative;
+    zoom:1;float: left;
+    width: 600px;
+    height: 330px;
+    background: #d22147
+}
+.foreshowBox-1, .foreshowBox-2 {
+    background: #fff;
+}
+.foreshowBox .proinfo {
+    position: relative;
+    zoom: 1;
+    margin: 20px 35px 27px;
+}
+.foreshowBox-1 .proinfo {
+    height: 283px;
+}
+.timerBox1 {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    line-height: 24px;
+    padding: 0 10px;
+    background: #333;
+    color: #fff;
+}
+.w-brand {
+    background: 0 0!important;
+    line-height: 23px;
+}
+.foreshowBox-1 .desc,
+.foreshowBox-1 .tit a,
+.foreshowBox-1 .tit a:hover,
+.foreshowBox-2 .tit a,
+.foreshowBox-2 .tit a:hover {
+    color: #333;
+}
+.foreshowBox .w-brand {
+    padding: 0 0 15px;
+    border-bottom: 1px solid #a81a39;
+}
+.foreshowBox-1 .w-brand {
+    border-color: #ebebeb;
+    font-size: 12px;
+    line-height: 18px;
+}
+.foreshowBox .w-brand {
+    line-height: 20px;
+}
+.w-brand img {
+    float: left;
+    width: 46px;
+    margin: 0 10px 0 0;
+}
+.foreshowBox .w-brand img {
+    width: 40px;
+}
+.foreshowBox .tit {
+    margin: 15px 0 10px;
+    font-size: 18px;
+    line-height: 28px;
+    max-height: 68px;
+    overflow: hidden;
+    font-weight: 400;
+}
+.foreshowBox .desc {
+    margin: 0 0 14px;
+    font-size: 14px;
+    line-height: 24px;
+    height: 78px;
+    overflow: hidden;
+}
+.foreshowBox .w-price {
+    line-height: 24px;
+}
+.s-fc0, a.s-fc0:hover {
+    color: #d22147;
+}
+.m-price .lbl {
+    margin-right: 8px;
+}
+.w-price strong {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 10px 0 0;
+    vertical-align: -2px;
+}
+.foreshowBox-1 .w-price strong,
+.foreshowBox-2 .w-price strong,
+.m-hotsale-1 .timerBox {
+    color: #d22046;
+}
+.w-price .symbol {
+    font-size: 16px;
+    vertical-align: 2px;
+}
+.w-icon-21 {
+    position: relative;
+    top: -3px;
+    white-space: nowrap;
+    color: #fff;
+    line-height: 28px;
+    padding: 0 0 0 20px;
+    width: 52px;
+    height: 28px;
+    background-position: -148px -667px;
+}
+.bdNarrowHome .w-icon-21 {
+    top: -4px;
+    line-height: 24px;
+    width: 42px;
+    height: 24px;
+    font-size: 12px;
+    background-position: -150px -714px;
+}
+.bdNarrowHome .w-icon-21 b {
+    font-size: 16px;
+}
+.w-price .price1 {
+    margin: 0 20px 0 0;
+}
+.w-price .price1 del {
+    font-size: 14px;
+    color: #333;
+}
+.foreshowBox .w-btn {
+    position: absolute;
+    bottom: 3px;
+    right: 0;
+}
+.foreshowBox .w-btn {
+    width: 50px;
+    height: 50px;
+    background-position: -468px -174px;
+}
+.foreshowBox .w-btn-1 {
+    background-position: -524px -174px;
+}
+
+.m-recomds ul {
+}
+.m-recomds li {
+    float: left;
+    width: 239px;
+    height: 304px;
+    margin-bottom: 6px;
+    border-right: 1px solid #eaeaea;
+    font-size: 14px;
+    background: #fff;
+}
+.m-recomds .pic {
+    position: relative;
+    zoom: 1;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+}
+.m-recomds .pic,
+.m-recomds .pic:hover {
+    color: #fff;
+    text-decoration: none;
+}
+.m-recomds .pic img {
+	width: 200px;
+	height: 200px;
+}
+.m-recomds .txt {
+    position: relative;
+    zoom: 1;
+    margin: 0 15px;
+    height: 104px;
+}
+.m-recomds .tit {
+    font-size: 14px;
+    line-height: 19px;
+    height: 38px;
+    overflow: hidden;
+}
+.m-recomds .tit a,
+.m-recomds .tit a:hover {
+    color: #333;
+    line-height: 20px;
+}
+.m-recomds .price {
+    position: absolute;
+    left: 0;
+    bottom: 16px;
+    color: #999;
+    white-space: nowrap;
+    font-size: 12px;
+}
+.m-recomds .price strong {
+    margin-right: 8px;
+    color: #d22147;
+    font-size: 20px;
+    line-height: 20px;
+}
+.m-recomds .price strong .symbol {
+    font-size: 14px;
+}
+.m-halfbanner {
+	width: 100%;
+	overflow: hidden;
+}
+.m-halfbanner ul {
+	width: 1240px;
+}
+.m-halfbanner li {
+	float: left;
+	width: 620px;
+	height: 175px;
+    margin-top: 20px;
+}
+
+.m-halfbanner li img {
+	width: 600px;
+	height: 175px;
+    background-color: #fff;
+}
+
+
+.m-mustbuy ul {
+    height: 363px;
+    margin: 0 0 40px;
+    background: #fff;
+    box-shadow: 0 0 1px #ddd;
+}
+.m-mustbuy li {
+    position: relative;
+    zoom: 1;
+    float: left;
+    width: 360px;
+    height: 180px;
+    overflow: hidden;
+}
+.m-mustbuy .itm1 {
+    height: 360px;
+}
+.m-mustbuy .big a,
+.m-mustbuy .big a:hover {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+.m-mustbuy .big .pic {
+    text-align: center;
+    height: 100%;
+}
+.m-mustbuy .big .imgwrap {
+    display: block;
+    position: relative;
+}
+.m-mustbuy .big .imgwrap img {
+	width: 360px;
+	height: 360px;
+}
+.m-mustbuy .big .txt {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 328px;
+    padding: 10px 10px 8px;
+    margin-right: 15px;
+    text-align: left;
+    background: #d22147;
+    color: #fdfdfd;
+}
+.m-mustbuy .tit {
+    font-size: 14px;
+    line-height: 20px;
+    overflow: hidden;
+}
+.m-mustbuy .big .desc,
+.m-mustbuy .big .tit {
+    display: block;
+    padding-right: 90px;
+}
+.m-mustbuy .big .tit {
+    max-height: 40px;
+}
+.m-mustbuy .price {
+    font-size: 18px;
+    line-height: 26px;
+    white-space: nowrap;
+}
+.m-mustbuy .big .price {
+    position: absolute;
+    right: 0;
+    top: 10px;
+    padding-right: 15px;
+    text-align: right;
+    line-height: normal;
+}
+.m-mustbuy .price .symbol {
+    font-size: 12px;
+}
+.m-mustbuy .small {
+	width: 420px;
+}
+.m-mustbuy .small .pic {
+    position: relative;
+    zoom: 1;
+    float: left;
+    width: 180px;
+    height: 180px;
+    overflow: hidden;
+}
+.m-mustbuy .small img {
+    width: 170px;
+    height: 170px;
+    margin-top: 10px;
+}
+.m-mustbuy .small .txt {
+    padding: 18px 25px 0 0;
+}
+.m-mustbuy .small .tit {
+    font-weight: 700;
+    line-height: 20px;
+    display: block;
+    max-height: 40px;
+    _height: 40px;
+}
+.m-mustbuy .small .price {
+    margin: 2px 0 10px;
+    color: #d22147;
+}
+.fs12 {
+    font-size: 12px;
+}
+
+
+
+
+
+
+

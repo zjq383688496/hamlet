@@ -1,0 +1,308 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>收货地址</title>
+
+<link rel="icon" href="http://static.hamlet365.com/resources/shop/images/favicon.ico" type="image/x-icon" />
+<link href="http://static.hamlet365.com/resources/shop/css/common.css" rel="stylesheet" type="text/css" />
+<link href="http://static.hamlet365.com/resources/shop/css/member.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://static.hamlet365.com/resources/shop/js/jquery.js"></script>
+<script type="text/javascript" src="/resources/shop/js/common.js"></script>
+<script type="text/javascript">
+$().ready(function() {
+	
+	var $listTable = $("#listTable");
+	var $delete = $("#listTable a.delete");
+	
+
+	// 删除
+	$delete.click(function() {
+		if (confirm("您确定要删除吗？")) {
+			var $tr = $(this).closest("tr");
+			var id = $tr.find("input[name='id']").val();
+			$.ajax({
+				url: "delete.action",
+				type: "POST",
+				data: {id: id},
+				dataType: "json",
+				cache: false,
+				success: function(message) {
+					$.message(message);
+					if (message.type == "success") {
+						var $siblings = $tr.siblings();
+						if ($siblings.size() <= 1) {
+							$listTable.after('<p>暂无信息<\/p>');
+						} else {
+							$siblings.last().addClass("last");
+						}
+						$tr.remove();
+					}
+				}
+			});
+		}
+		return false;
+	});
+
+});
+</script>
+</head>
+<body>
+<script type="text/javascript">
+$().ready(function() {
+
+	var $headerLogin = $("#headerLogin");
+	var $headerRegister = $("#headerRegister");
+	var $headerUsername = $("#headerUsername");
+	var $headerLogout = $("#headerLogout");
+	var $productSearchForm = $("#productSearchForm");
+	var $keyword = $("#productSearchForm input");
+	var defaultKeyword = "";
+	
+	var username = getCookie("username");
+	if (username != null) {
+		$headerUsername.text("您好, " + username).show();
+		$headerLogout.show();
+	} else {
+		$headerLogin.show();
+		$headerRegister.show();
+	}
+	
+	$keyword.focus(function() {
+		if ($keyword.val() == defaultKeyword) {
+			$keyword.val("");
+		}
+	});
+	
+	$keyword.blur(function() {
+		if ($keyword.val() == "") {
+			$keyword.val(defaultKeyword);
+		}
+	});
+	
+	$productSearchForm.submit(function() {
+		if ($.trim($keyword.val()) == "" || $keyword.val() == defaultKeyword) {
+			return false;
+		}
+	});
+
+});
+</script>
+
+<!-- header -->
+<div class="header header-simp">
+
+	<!-- top -->
+	<div class="head-top">
+		<div class="layout">
+			<ul class="userinfo">
+				<li class="welcome"><span></span> 欢迎!</li>
+				<li class="login">
+					<a id="headerLogin" style="display:none" href="/login.action">登录</a>
+					<a id="headerRegister" style="display:none" href="/register.action">注册</a>
+					<a id="headerUsername" style="display:none"></a>
+					<a id="headerLogout" style="display:none" href="/logout.action">[退出]</a>
+				</li>
+
+				<li class="buy-protect bldr icon-phone">
+					<span>
+						客服热线:
+						<b class="red">400-8888888</b>
+					</span>
+				</li>
+
+				<li class="buy-protect bldr">
+					<a href="/article/list/3.action" target="_blank">购物指南</a>
+				</li>
+				<li class="buy-protect bldr">
+					<a href="/member/index.action" target="_blank">会员中心</a>
+				</li>
+				<li class="buy-protect bldr">
+					<a href="/member/order/list.action" target="_blank">我的订单</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- main -->
+	<div class="head-main layout">
+		<div class="head-logo">
+			<a class="logo-ule" href="/" style="background-image: url(http://static.hamlet365.com/upload/image/logo.gif)"></a>
+		</div>
+
+	</div>
+</div>
+
+<div class="container member">
+
+	<div class="menu">
+		<div class="title">
+			<a href="/member/index.action">会员中心</a>
+		</div>
+		<div class="content">
+			<dl>
+				<dt>交易信息</dt>
+				<dd>
+					<a href="/member/order/list.action">我的订单</a>
+				</dd>
+				<dd>
+					<a href="/member/coupon_code/list.action">我的优惠券</a>
+				</dd>
+			</dl>
+			<dl>
+				<dt>我的收藏</dt>
+				<dd>
+					<a href="/member/favorite/list.action">商品收藏</a>
+				</dd>
+			</dl>
+			
+		</div>
+		<div class="bottom"></div>
+	</div>
+
+	<div class="span18 last">
+		<div class="list">
+			<div class="member-msg">
+				<span class="icon-sus">注册成功！</span>
+			</div>
+			
+			<!-- 会员充值金额 -->
+			<div id="recharge" class="recharge clearfix">
+				<ul>
+					<li class="member_m selected" member="1" name="member_li">
+						<div class="tit">月度会员</div>
+						<div class="txt">会员当月可享受优质低价会员商品</div>
+						<div class="price">¥ 15.00</div>
+					</li>
+					<li class="member_y" member="2" name="member_li">
+						<div class="tit">年费会员</div>
+						<div class="txt">
+							会员整年可享受优质低价会员商品
+							<span>( 买一年赠2个月 )</span>
+						</div>
+						<div class="price">¥ 150.00</div>
+					</li>
+					<li class="member_d" member="3" name="member_li">
+						<div class="tit">会员体验卡</div>
+						<div class="txt">可享受赠送优质低价会员商品<br>获取渠道</div>
+						<div class="price">免费</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="tuijian">
+				<dl>
+					<dt>
+						我有推荐人<span title="填写推荐人ID，首次开通会员推荐人可获得10金币，被推荐人可获得5金币   金币使用规则">奖</span>
+					</dt>
+					<dd>
+						<input type="text" id="userTJ" name="userTJ" autocomplete="off" placeholder="请填写推荐人ID">
+					</dd>
+				</dl>
+
+				<dl>
+					<dt>
+						使用金币抵扣
+					</dt>
+					<dd>
+						<input type="text" id="payGold" name="payGold" autocomplete="off">
+						<span>（可使用105个金币）<i class="red" id="moneyChange">-¥15.00</i></span>
+					</dd>
+				</dl>
+
+				<div class="btn-box">
+					<a href="javascript:;" class="btn-red">立即开通</a>
+					<a href="javascript:;" class="btn-null">跳过，去购物</a>
+				</div>
+
+				<div class="labelFree">
+					<input type="checkbox" id="agreePrivacy" name="agreePrivacy" class="chkbox" checked="checked" value="1">
+					<label for="agreePrivacy" class="secondary">
+						我接受 <a href="" target="_blank">哈姆雷特会员规则</a>
+					</label>
+				</div>
+			</div>
+
+			<div class="tuijian">
+				<dl>
+					<dt>
+						会员体验卡卡号
+					</dt>
+					<dd>
+						<input type="text" id="userCard" name="userCard" autocomplete="off" placeholder="请填写卡号">
+					</dd>
+				</dl>
+
+				<dl>
+					<dt>
+						会员体验卡时效
+					</dt>
+					<dd>
+						<i class="red" style="font-size: 20px;" id="cardDay">7天</i></span>
+					</dd>
+				</dl>
+
+				<div class="btn-box">
+					<a href="javascript:;" class="btn-red">立即开通</a>
+					<a href="javascript:;" class="btn-null">跳过，去购物</a>
+				</div>
+
+				<div class="labelFree">
+					<input type="checkbox" id="agreePrivacy" name="agreePrivacy" class="chkbox" checked="checked" value="1">
+					<label for="agreePrivacy" class="secondary">
+						我接受 <a href="" target="_blank">哈姆雷特会员规则</a>
+					</label>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<!-- footer -->
+<div class="footer">
+
+	<!-- nav -->
+	<div class="footer-main">
+		<div class="container">
+			<ul class="bottomNav">
+						<li>
+							<a href="#">关于我们</a>
+							|
+						</li>
+						<li>
+							<a href="#">联系我们</a>
+							|
+						</li>
+						<li>
+							<a href="#">诚聘英才</a>
+							|
+						</li>
+						<li>
+							<a href="#">法律声明</a>
+							|
+						</li>
+						<li>
+							<a href="/friend_link.action">友情链接</a>
+							|
+						</li>
+						<li>
+							<a href="/article/list/4.action" target="_blank">支付方式</a>
+							|
+						</li>
+						<li>
+							<a href="/article/list/5.action" target="_blank">配送方式</a>
+							
+						</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- Copyright -->
+	<div class="container">
+		<div class="copyright">Copyright © 2005-2013 哈姆雷特精品会员店 版权所有</div>
+	</div>
+
+</div></body>
+</html>
