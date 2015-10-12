@@ -772,7 +772,6 @@ span.loadingBar {
 div.path {
 	height: 40px;
 	line-height: 40px;
-	background-color: #f7f7f7;
 	clear: both;
 	margin-bottom: 10px;
 	padding-left: 10px;
@@ -1359,7 +1358,7 @@ div.pagination .pageBreak {
 }
 .w1200 .head-main .head-search .btn-search{
 	width: 94px;
-	background-position: 33px -183px;
+	background-position: 33px -147px;
 }
 .w1200 .head-main .cw-icon{
 	width: 100px;

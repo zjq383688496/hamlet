@@ -910,14 +910,18 @@ div.productContent .productInfo {
 	width: 800px;
 }
 
-div.productContent .productInfo .img_2d{
+div.productContent .productInfo .img_2d {
 	position: absolute;
     top: 0;
     right: 0;
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     z-index: 1;
     overflow: hidden;
+}
+div.productContent .productInfo .img_2d img {
+	width: 120px;
+	height: 120px;
 }
 div.productContent .name,
 div.productContent .name2{
@@ -1445,24 +1449,30 @@ div.productContent .bar {
 }
 
 div.productContent .bar ul {
-	width: 978px;
-	height: 32px;
-	background-color: #ddd;
+	width: 980px;
+	height: 42px;
+	background-color: #f7f7f7;
 }
 
 div.productContent .bar li {
 	width: 120px;
-	height: 32px;
-	line-height: 32px;
+	height: 40px;
+	line-height: 38px;
 	float: left;
 	text-align: center;
-	font-size: 15px;
+	font-size: 16px;
+	border-top: 2px solid #fff;
 }
 
-div.productContent .bar li.current {
-	background-color: #fafafa;
+div.productContent .bar li.current,
+div.productContent .bar li:hover {
+	border-top: 2px solid #f7f7f7;
+	background-color: #fff;
 }
-
+div.productContent .bar li.current a,
+div.productContent .bar li:hover a {
+	color: #ef0101;
+}
 div.productContent .bar li.current a {
 	font-weight: bold;
 }
@@ -1475,42 +1485,38 @@ div.productContent .brief {
 }
 
 div.productContent .brief th {
-	width: 100px;
+	width: 80px;
 	height: 30px;
 	padding: 0px 6px;
-	color: #888888;
+	color: #666;
 	font-weight: normal;
-	text-align: right;
-	background-color: #eeeeee;
+	text-align: left;
 }
 
 div.productContent .brief td {
+	width: 180px;
 	padding: 0px 6px;
-	color: #999999;
-	background-color: #f6f6f6;
+	color: #666;
 }
 
 div.productContent .introduction .title, div.productContent .parameter .title {
-	height: 29px;
-	line-height: 29px;
-	margin-bottom: 10px;
-	border-top: 1px solid #aaa8a9;
-	background-color: #d3d3d3;
+	height: 36px;
+	line-height: 30px;
+	margin-bottom: 20px;
+	border-bottom: 2px solid #000;
 }
 
 div.productContent .introduction .title strong, div.productContent .parameter .title strong {
 	display: block;
 	float: left;
-	padding: 0px 20px;
-	color: #ffffff;
-	font-size: 14px;
+	padding: 0px 10px;
+	color: #000;
+	font-size: 16px;
 	font-weight: bold;
 	font-family: "Microsoft YaHei";
-	background-color: #aaa8a9;
 }
 
 div.productContent .introduction {
-	width: 710px;
 	margin-bottom: 10px;
 	overflow: hidden;
 }
