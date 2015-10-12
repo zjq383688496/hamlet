@@ -322,27 +322,16 @@ $().ready(function() {
 			} else {
 				$bar.css({top: scrollTop});
 			}
-			var introductionTop = $introduction.size() > 0 ? $introduction.offset().top - 36 : null;
-			var parameterTop = $parameter.size() > 0 ? $parameter.offset().top - 36 : null;
-			var reviewTop = $review.size() > 0 ? $review.offset().top - 36 : null;
-			var consultationTop = $consultation.size() > 0 ? $consultation.offset().top - 36 : null;
-			if (consultationTop != null && scrollTop >= consultationTop) {
-				$bar.find("li").removeClass("current");
-				$consultationTab.addClass("current");
-			} else if (reviewTop != null && scrollTop >= reviewTop) {
-				$bar.find("li").removeClass("current");
-				$reviewTab.addClass("current");
-			} else if (parameterTop != null && scrollTop >= parameterTop) {
-				$bar.find("li").removeClass("current");
-				$parameterTab.addClass("current");
-			} else if (introductionTop != null && scrollTop >= introductionTop) {
-				$bar.find("li").removeClass("current");
-				$introductionTab.addClass("current");
-			}
 		} else {
 			$bar.find("li").removeClass("current");
 			$bar.css({position: "absolute", top: barTop});
 		}
+	});
+	$bar.find("li").click(function() {
+		var tab = $($(this).attr('data-href'));
+		$(window).scrollTop(tab.offset().top - 42);
+		$bar.find("li").removeClass("current");
+		$(this).addClass("current");
 	});
 	
 	<#if setting.isReviewEnabled && setting.reviewAuthority != "anyone">
@@ -693,25 +682,25 @@ $().ready(function() {
 			<div id="bar" class="bar">
 				<ul>
 					<#if product.introduction?has_content>
-						<li id="introductionTab">
-							<a href="#introduction">${message("shop.product.introduction")}</a>
+						<li id="introductionTab" data-href="#introduction">
+							<a>${message("shop.product.introduction")}</a>
 						</li>
 					</#if>
 					<#if product.parameterValue?has_content>
-						<li id="parameterTab">
-							<a href="#parameter">${message("shop.product.parameter")}</a>
+						<li id="parameterTab" data-href="#parameter">
+							<a>${message("shop.product.parameter")}</a>
 						</li>
 					</#if>
 					<#if setting.isReviewEnabled>
-						<li id="reviewTab">
-							<a href="#review">${message("shop.product.review")}</a>
+						<li id="reviewTab" href="#review">
+							<a>${message("shop.product.review")}</a>
 						</li>
 					</#if>
-					<#if setting.isConsultationEnabled>
-						<li id="consultationTab">
-							<a href="#consultation">${message("shop.product.consultation")}</a>
+					<!--<#if setting.isConsultationEnabled>
+						<li id="consultationTab" href="#consultation">
+							<a>${message("shop.product.consultation")}</a>
 						</li>
-					</#if>
+					</#if>-->
 				</ul>
 			</div>
 			<#if (product.parameterValue.size() gte 3)>
@@ -771,52 +760,30 @@ $().ready(function() {
 					<div class="title">${message("shop.product.review")}</div>
 					<div class="content clearfix">
 						<#if product.scoreCount gt 0>
-							<div class="score">
-								<strong>${product.score?string("0.0")}</strong>
-								<div>
-									<div class="score${(product.score * 2)?string("0")}"></div>
-									<div>${message("Product.scoreCount")}: ${product.scoreCount}</div>
-								</div>
-							</div>
-							<div class="graph">
-								<span style="width: ${(product.score * 20)?string("0.0")}%">
-									<em>${product.score?string("0.0")}</em>
-								</span>
-								<div>&nbsp;</div>
-								<ul>
-									<li>${message("shop.product.graph1")}</li>
-									<li>${message("shop.product.graph2")}</li>
-									<li>${message("shop.product.graph3")}</li>
-									<li>${message("shop.product.graph4")}</li>
-									<li>${message("shop.product.graph5")}</li>
-								</ul>
-							</div>
 							<div class="handle">
 								<a href="${base}/review/add/${product.id}.action" id="addReview">${message("shop.product.addReview")}</a>
 							</div>
+
 							<@review_list productId = product.id count = 5>
 								<#if reviews?has_content>
-									<table>
-										<#list reviews as review>
-											<tr>
-												<th>
-													${review.content}
-													<div class="score${(review.score * 2)?string("0")}"></div>
-												</th>
-												<td>
-													<#if review.member??>
-														${review.member.username}
-													<#else>
-														${message("shop.product.anonymous")}
-													</#if>
-													<span title="${review.createDate?string("yyyy-MM-dd HH:mm:ss")}">${review.createDate?string("yyyy-MM-dd")}</span>
-												</td>
-											</tr>
-										</#list>
-									</table>
-									<p>
-										<a href="${base}/review/content/${product.id}.action">[${message("shop.product.viewReview")}]</a>
-									</p>
+								<ul>
+									<#list reviews as review>
+									<li>
+										<b>
+											<#if review.member??>
+												${review.member.username}
+											<#else>
+												${message("shop.product.anonymous")}
+											</#if>
+										</b>
+										<p>${review.content}</p>
+										<span>${review.createDate?string("yyyy-MM-dd")}</span>
+									</li>
+									</#list>
+								</ul>
+								<p>
+									<a href="${base}/review/content/${product.id}.action">[${message("shop.product.viewReview")}]</a>
+								</p>
 								</#if>
 							</@review_list>
 						<#else>
@@ -827,7 +794,7 @@ $().ready(function() {
 					</div>
 				</div>
 			</#if>
-			<#if setting.isConsultationEnabled>
+			<!-- <#if setting.isConsultationEnabled>
 				<div id="consultation" name="consultation" class="consultation">
 					<div class="title">${message("shop.product.consultation")}</div>
 					<div class="content">
@@ -871,7 +838,7 @@ $().ready(function() {
 						</@consultation_list>
 					</div>
 				</div>
-			</#if>
+			</#if> -->
 		</div>
 	</div>
 </div>

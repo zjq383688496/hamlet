@@ -1461,12 +1461,12 @@ div.productContent .bar li {
 	float: left;
 	text-align: center;
 	font-size: 16px;
-	border-top: 2px solid #fff;
+	border-top: 2px solid #f7f7f7;
 }
 
 div.productContent .bar li.current,
 div.productContent .bar li:hover {
-	border-top: 2px solid #f7f7f7;
+	border-top: 2px solid #ef0101;
 	background-color: #fff;
 }
 div.productContent .bar li.current a,
@@ -1679,10 +1679,13 @@ div.productContent .review li {
 
 div.productContent .review b {
 	float: left;
+	display: block;
 	width: 110px;
 	padding-right: 20px;
 	margin-top: 10px;
-	text-align: right;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 div.productContent .review p,
 div.productContent .review span {
