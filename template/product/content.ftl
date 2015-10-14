@@ -25,6 +25,25 @@
 <script type="text/javascript" src="<@website.static />/resources/shop/js/jquery.validate.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/js/common.js"></script>
 <script type="text/javascript">
+
+$.ajax({
+	url: "${base}/product/checkVip.action?id=${product.id}",
+	type: "GET",
+	dataType: "json",
+	cache: false,
+	success: function(data) {
+		//$.message(message);
+		if(data.message == true){
+			if(data.isDefault != true){
+				$('.vip-price').hide();
+				$('#productPrice').parent().prev().html('会员价');
+				$('#productPrice').html('&yen;'+data.price);
+			}
+		}
+	}
+});
+
+
 $().ready(function() {
 
 	var $historyProduct = $("#historyProduct ul");
@@ -291,8 +310,17 @@ $().ready(function() {
 				data: {id: ${product.id}, quantity: quantity},
 				dataType: "json",
 				cache: false,
-				success: function(message) {
-					$.message(message);
+				success: function(data) {
+					$.message(data.message);
+					if(data.cartQuantity > 0 ){
+						if($('#cartQuantity').hasClass("hc-number")){
+							$('#cartQuantity').html(data.cartQuantity);
+						}else{
+							$('#cartQuantity').addClass('hc-number').html(data.cartQuantity);
+						}
+					}else{
+						$('#cartQuantity').removeClass('hc-number').html('');
+					}
 				}
 			});
 		} else {
@@ -463,117 +491,47 @@ $().ready(function() {
 					<dl>
 						<dt>${message("Product.price")}</dt>
 						<dd>
-							<strong>${currency(product.price, true)}</strong>
+							<strong id="productPrice">${currency(product.price, true)}</strong>
 							<#if setting.isShowMarketPrice>
 							<del>${currency(product.marketPrice, true)}</del>
 							</#if>
 							<div class="vip-price">
-								<span><font>会员价</font>￥200.00</span>
+								<span><font>会员价</font>${currency(memberPrice, true, true)}</span>
 								<a href="javascript:;">开通会员</a>
 							</div>
 						</dd>
 					</dl>
 					<!-- 比价 -->
+					<#if  product.jdPrice?? && product.jdPrice gt 0 && product.yhdPrice?? && product.jdPrice gt 0 && product.tmPrice?? && product.jdPrice gt 0>
 					<dl class="comp-price">
 						<dt>比 价</dt>
 						<dd>
+						<#if product.jdPrice?? && product.jdPrice gt 0>
 							<div>
 								<i class="icon-jd" title="京东"></i>
 								<b>¥${product.jdPrice}</b>
 							</div>
+						</#if>
+						<#if product.yhdPrice?? && product.jdPrice gt 0>
 							<div>
 								<i class="icon-yhd" title="1号店"></i>
 								<b>¥${product.yhdPrice}</b>
 							</div>
+						</#if>
+						<#if product.tmPrice?? && product.jdPrice gt 0>
 							<div>
 								<i class="icon-tmail" title="天猫"></i>
 								<b>¥${product.tmPrice}</b>
 							</div>
+						</#if>
 						</dd>
 					</dl>
+					</#if>
 					<!-- 运费 -->
 					<dl class="info-area">
 						<dt>运 费</dt>
 						<dd class="item_fee p clear">
-							<div class="fArea">
-								<span>
-									浙江嘉兴市
-								</span>至
-							</div>
-							<div class="choosedArea">
-								<span class="btn-slideDown" provincename="上海">上海</span>
-								<div id="areas" style="display: none;">
-									<p class="areaTit clear">请选择您的收货城市</p>
-									<p class="topArea clear">
-										<a href="#" ind="25">上海</a>
-										<a href="#" ind="2">北京</a>
-										<a href="#" ind="3">重庆</a>
-										<a href="#" ind="30">天津</a>
-									</p>
-									<div class="otherArea">
-										<div class="clear cityName">
-											<a href="#" ind="1" class="myon">安徽</a>
-											<a href="#" ind="4">福建</a>
-											<a href="#" ind="5">甘肃</a>
-											<a href="#" ind="6">广东</a>
-											<a href="#" ind="7">广西</a>
-											<a href="#" ind="8">贵州</a>
-										</div>
-										<div class="secondCity clear" style="display: block;">
-											<a href="#">合肥</a>
-											<a href="#">芜湖</a>
-											<a href="#">蚌埠</a>
-											<a href="#">淮南</a>
-											<a href="#">马鞍山</a>
-											<a href="#">淮北</a>
-											<a href="#">铜陵</a>
-											<a href="#">安庆</a>
-											<a href="#">黄山</a>
-											<a href="#">滁州</a>
-											<a href="#">阜阳</a>
-											<a href="#">宿州</a>
-											<a href="#">六安</a>
-											<a href="#">亳州</a>
-											<a href="#">池州</a>
-											<a href="#">宣城</a>
-										</div>
-										<div class="clear cityName">
-											<a href="#" ind="9">海南</a>
-											<a href="#" ind="10">河北</a>
-											<a href="#" ind="11">黑龙江</a>
-											<a href="#" ind="12">河南</a>
-											<a href="#" ind="14">湖北</a>
-											<a href="#" ind="15">湖南</a>
-										</div>
-										<div class="secondCity clear" style="display: none;"></div>
-										<div class="clear cityName">
-											<a href="#" ind="16">江苏</a>
-											<a href="#" ind="17">江西</a>
-											<a href="#" ind="18">吉林</a>
-											<a href="#" ind="19">辽宁</a>
-											<a href="#" ind="21">内蒙古</a>
-											<a href="#" ind="22">宁夏</a>
-										</div>
-										<div class="secondCity clear" style="display: none;"></div>
-										<div class="clear cityName">
-											<a href="#" ind="23">青海</a>
-											<a href="#" ind="24">山东</a>
-											<a href="#" ind="26">山西</a>
-											<a href="#" ind="27">陕西</a>
-											<a href="#" ind="28">四川</a>
-											<a href="#" ind="31">新疆</a>
-										</div>
-										<div class="secondCity clear" style="display: none;"></div>
-										<div class="clear cityName">
-											<a href="#" ind="32">西藏</a>
-											<a href="#" ind="33">云南</a>
-											<a href="#" ind="34">浙江</a>
-										</div>
-										<div class="secondCity clear" style="display: none;"></div>
-									</div>
-								</div>
-							</div>
-							<span class="sfee_dt_price">¥15.00</span>
+							<span class="sfee_dt_price" style="color:#000000">&yen;15.00&nbsp;&nbsp;&nbsp;&nbsp;满100元免运费</span>
 							<input type="hidden" name="freightType" id="freightType" value="platform">
 
 						</dd>
@@ -682,7 +640,7 @@ $().ready(function() {
 			<div id="bar" class="bar">
 				<ul>
 					<#if product.introduction?has_content>
-						<li id="introductionTab" data-href="#introduction">
+						<li id="introductionTab" data-href="#introduction" class="current">
 							<a>${message("shop.product.introduction")}</a>
 						</li>
 					</#if>
@@ -692,12 +650,12 @@ $().ready(function() {
 						</li>
 					</#if>
 					<#if setting.isReviewEnabled>
-						<li id="reviewTab" href="#review">
+						<li id="reviewTab" data-href="#review">
 							<a>${message("shop.product.review")}</a>
 						</li>
 					</#if>
 					<!--<#if setting.isConsultationEnabled>
-						<li id="consultationTab" href="#consultation">
+						<li id="consultationTab" data-href="#consultation">
 							<a>${message("shop.product.consultation")}</a>
 						</li>
 					</#if>-->
@@ -757,13 +715,14 @@ $().ready(function() {
 			</#if>
 			<#if setting.isReviewEnabled>
 				<div id="review" name="review" class="review">
-					<div class="title">${message("shop.product.review")}</div>
+					<div class="title">
+						${message("shop.product.review")}
+						<div class="handle">
+							<a href="${base}/review/add/${product.id}.action" id="addReview">${message("shop.product.addReview")}</a>
+						</div>
+					</div>
 					<div class="content clearfix">
 						<#if product.scoreCount gt 0>
-							<div class="handle">
-								<a href="${base}/review/add/${product.id}.action" id="addReview">${message("shop.product.addReview")}</a>
-							</div>
-
 							<@review_list productId = product.id count = 5>
 								<#if reviews?has_content>
 								<ul>
@@ -781,15 +740,11 @@ $().ready(function() {
 									</li>
 									</#list>
 								</ul>
-								<p>
+								<!--<p>
 									<a href="${base}/review/content/${product.id}.action">[${message("shop.product.viewReview")}]</a>
-								</p>
+								</p>-->
 								</#if>
 							</@review_list>
-						<#else>
-							<p>
-								${message("shop.product.noReview")} <a href="${base}/review/add/${product.id}.action" id="addReview">[${message("shop.product.addReview")}]</a>
-							</p>
 						</#if>
 					</div>
 				</div>

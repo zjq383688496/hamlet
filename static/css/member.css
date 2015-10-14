@@ -551,13 +551,15 @@ div.member .recharge {
 }
 
 div.member .recharge ul {
-	width: 1000px;
+	/*width: 1000px;*/
 	overflow: hidden;
+	text-align: center;
 }
 div.member .recharge li {
 	position: relative;
 	width: 294px;
-	float: left;
+	/*float: left;*/
+	display: inline-block;
 	padding-bottom: 6px;
 	margin-right: 28px;
 	margin-bottom: 6px;

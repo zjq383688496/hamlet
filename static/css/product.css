@@ -704,7 +704,6 @@ div.productContent .productImage {
 	width: 350px;
 	height: 400px;
 	float: left;
-	margin: 15px;
 }
 
 div.productContent .productImage .medium {
@@ -912,7 +911,7 @@ div.productContent .productInfo {
 
 div.productContent .productInfo .img_2d {
 	position: absolute;
-    top: 0;
+    top: 2px;
     right: 0;
     width: 120px;
     height: 120px;
@@ -1461,7 +1460,7 @@ div.productContent .bar li {
 	float: left;
 	text-align: center;
 	font-size: 16px;
-	border-top: 2px solid #f7f7f7;
+	border-top: 2px solid #fff;
 }
 
 div.productContent .bar li.current,
@@ -1512,7 +1511,7 @@ div.productContent .introduction .title strong, div.productContent .parameter .t
 	padding: 0px 10px;
 	color: #000;
 	font-size: 16px;
-	font-weight: bold;
+	font-weight: 100;
 	font-family: "Microsoft YaHei";
 }
 
@@ -1651,18 +1650,16 @@ div.productContent .review .graph li {
 
 div.productContent .review .handle {
 	height: 40px;
-	float: left;
-	padding-top: 34px;
-	padding-left: 20px;
-	margin: 10px 0px;
+	float: right;
 }
 
 div.productContent .review .handle a {
-	padding: 4px 8px;
-	color: #ffffff;
+	padding: 2px 8px;
+	margin-right: 10px;
+	color: #fff;
 	font-weight: bold;
 	white-space: nowrap;
-	background-color: #2372cf;
+	background-color: #ef0101;
 }
 
 div.productContent .review ul {
