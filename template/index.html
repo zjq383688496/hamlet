@@ -9,7 +9,7 @@
 <script src="http://static.hamlet365.com/resources/shop/js/jquery.js"></script>
 <script src="http://static.hamlet365.com/resources/shop/js/jquery.tools.js"></script>
 <script src="http://static.hamlet365.com/resources/shop/js/jquery.lazyload.js"></script>
-<script src="/resources/shop/js/common.js"></script>
+<!-- <script src="/resources/shop/js/common.js"></script> -->
 <script>
 $(function() {
 	var $productImage = $("#hotProduct img");
@@ -19,6 +19,69 @@ $(function() {
 		effect: "fadeIn",
 		skip_invisible: false
 	});
+
+	// banner轮播
+	var BANNER = {
+		init: function () {
+			var me = this;
+			me.$parent = $('#topslide');
+			me.$main = $('#slider');
+			me.$img = $('#slider div');
+			me.$control = $('.slider-control');
+			me._len = me.$img.length;
+			me._now = 0;
+			me._state = true;
+			me._time;
+			if (me._len > 1) {
+				me.dot();
+				me.bindEvent();
+				me.imgActive(me._now);
+				me.imgPlay();
+			}
+		},
+		// 事件绑定
+		bindEvent: function () {
+			var me = this;
+			// dot点击事件
+			me.$dot.bind('mouseover', function () {
+				var num = ~~($(this).attr('rel'));
+				me.imgActive(num);
+			});
+			// 轮播区域hover停止轮播
+			me.$parent.hover(function () {
+				clearInterval(me._time);
+			},function () {
+				me.imgPlay();
+			});
+		},
+		// 生成dot
+		dot: function () {
+			var me = this;
+			var arr = [];
+			for (var i = 0; i < me._len; i++) {
+				arr.push('<a rel="'+i+'"></a>');
+			}
+			me.$control.html(arr.join(''));
+			me.$dot = $('.slider-control a');
+		},
+		// 图片轮播
+		imgPlay: function () {
+			var me = this;
+			me._time = setInterval(function () {
+				me.imgActive(me._now);
+			}, 2000);
+		},
+		imgActive: function (num) {
+			var me = this;
+			me.$img.removeClass('active');
+			me.$dot.removeClass('active');
+			me.$img.eq(num).addClass('active');
+			me.$dot.eq(num).addClass('active');
+			me._now = ++num;
+			me._now = me._now > me._len-1? 0: me._now;
+		}
+	};
+	BANNER.init();
 
 });
 </script>
@@ -51,15 +114,17 @@ $(function() {
 <!-- topslide -->
 <div id="topslide" class="topslide">
 	<div id="slider" class="slider">
-		<a href="/" style="background-color: #ff0;"><img src="http://7xkqwg.com1.z0.glb.clouddn.com/f-1440083450713-21075.jpg" alt="美好" title="美好"></a>
-		<a href="/" style="background-color: #ff0;"><img src="http://7xkqwg.com1.z0.glb.clouddn.com/f-1440083568234-27683.jpg" alt="粉红" title="粉红"></a>
-		<a href="/" style="background-color: #ff0;"><img src="http://7xkqwg.com1.z0.glb.clouddn.com/f-1440083464326-58365.jpg" alt="香浓" title="香浓"></a>
+		<div class="active" href="/" style="background-color: #ff0;">
+			<a href="/"><img src="http://7xkqwg.com1.z0.glb.clouddn.com/f-1440083450713-21075.jpg" alt="美好" title="美好"></a>
+		</div>
+		<div href="/" style="background-color: #0ff;">
+			<a href="/"><img src="http://7xkqwg.com1.z0.glb.clouddn.com/f-1440083568234-27683.jpg" alt="粉红" title="粉红"></a>
+		</div>
+		<div href="/" style="background-color: #f0f;">
+			<a href="/"><img src="http://7xkqwg.com1.z0.glb.clouddn.com/f-1440083464326-58365.jpg" alt="香浓" title="香浓"></a>
+		</div>
 	</div>
-	<div class="slider-control">
-		<a class="active" rel="0"></a>
-		<a rel="1"></a>
-		<a rel="2"></a>
-	</div>
+	<div class="slider-control"></div>
 </div>
 
 <!-- container -->
