@@ -24,8 +24,21 @@ $().ready(function() {
 	var $effectivePrice = $("#effectivePrice");
 	var $clear = $("#clear");
 	var $submit = $("#submit");
+	var $total = $('.total-box');
 	var timeouts = {};
 	
+	// 购物车信息栏浮动
+	$(window).bind('load scroll resize', function () {
+		var h = $total.height();
+		var tt = $total.offset().top;
+		var st = $(window).scrollTop();
+		var nh = document.documentElement.clientHeight;
+		if (st + nh < tt + h) {
+			$total.find('.total').addClass('total-fixed');
+		} else {
+			$total.find('.total').removeClass('total-fixed');
+		}
+	});
 	//修改头部样式
 	$('.head-cart-nav .step ul li:first').addClass('current');
 	
