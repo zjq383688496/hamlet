@@ -312,8 +312,8 @@ div.slider-control a.active {
 }
 .m-recomds li {
     float: left;
-    width: 239px;
-    height: 304px;
+    width: 299px;
+    height: 370px;
     margin-bottom: 6px;
     border-right: 1px solid #eaeaea;
     font-size: 14px;
@@ -332,8 +332,8 @@ div.slider-control a.active {
     text-decoration: none;
 }
 .m-recomds .pic img {
-	width: 200px;
-	height: 200px;
+	width: 270px;
+	height: 270px;
 }
 .m-recomds .txt {
     position: relative;
