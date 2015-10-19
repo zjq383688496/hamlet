@@ -123,15 +123,9 @@ $().ready(function() {
 		</div>
 		<div class="span18 last">
 			<div class="path">
-				<ul>
-					<li>
-						<a href="${base}/">${message("shop.path.home")}</a>
-					</li>
-					<li>
-						<a href="${base}${product.path}">${abbreviate(product.name, 30)}</a>
-					</li>
-					<li>${message("shop.review.title")}</li>
-				</ul>
+				<a href="${base}/">${message("shop.path.home")}</a>
+				<a href="${base}${product.path}">${abbreviate(product.name, 30)}</a>
+				<span>${message("shop.review.title")}</span>
 			</div>
 			<table class="info">
 				<tr>
