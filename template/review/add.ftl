@@ -11,7 +11,8 @@
 <script type="text/javascript" src="<@website.static />/resources/shop/js/jquery.js"></script>
 <script type="text/javascript" src="<@website.static />/resources/shop/js/jquery.rating.js"></script>
 <script type="text/javascript" src="<@website.static />/resources/shop/js/jquery.validate.js"></script>
-<script type="text/javascript" src="${base}/resources/shop/js/common.js"></script>
+<#include "/shop/include/common_js.ftl" />
+<script src="<@website.static />/v2/js/common-shop.js"></script>
 <script type="text/javascript">
 $().ready(function() {
 
