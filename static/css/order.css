@@ -526,10 +526,11 @@ div.order .result .paymentPlugin_6 a {
 	font-style: normal;
 	overflow: hidden;
 	cursor: pointer;
-	border: solid 1px #b0c2e1;
+	border: solid 2px #b0c2e1;
 	background-color: #fff;
 	background-position: center;
 	background-repeat: no-repeat;
+	background-size: cover;
 	border-radius: 3px;
 	overflow: hidden;
 	text-indent: -9999px;
@@ -547,7 +548,7 @@ div.order .result .paymentPlugin_4 a:hover,
 div.order .result .paymentPlugin_4 li.selected a,
 div.order .result .paymentPlugin_6 a:hover,
 div.order .result .paymentPlugin_6 li.selected a {
-	border: solid 1px #ef0101;
+	border: solid 2px #ef0101;
 }
 
 div.order .result .paymentButton {
@@ -640,8 +641,11 @@ div.order .result .title {
 	width: 120px;
 	height: 30px;
 	text-indent: -9999px;
-	border: 1px solid #b0c2e1;
+	border: 2px solid #b0c2e1;
 	background-color: #fff;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 	margin: 8px 10px 0;
 	border-radius: 3px;
 }
@@ -732,4 +736,12 @@ div.complete-info a {
 	float: left;
 	padding-right: 10px;
 	color: #005aa0;	
+}
+
+#qrcode {
+	margin-top: 10px;
+}
+#qrcode canvas {
+	display: block;
+	margin: 0 auto;
 }

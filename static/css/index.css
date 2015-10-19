@@ -224,7 +224,8 @@ div.slider-control a.active {
     margin: 0 10px 0 0;
 }
 .foreshowBox .w-brand img {
-    width: 40px;
+    width: 100px;
+    height: 60px;
 }
 .foreshowBox .tit {
     margin: 15px 0 10px;
@@ -313,7 +314,8 @@ div.slider-control a.active {
 .m-recomds li {
     float: left;
     width: 299px;
-    height: 370px;
+    height: 390px;
+    padding-top: 10px;
     margin-bottom: 6px;
     border-right: 1px solid #eaeaea;
     font-size: 14px;
@@ -342,9 +344,10 @@ div.slider-control a.active {
     height: 104px;
 }
 .m-recomds .tit {
+    height: 38px;
     font-size: 14px;
     line-height: 19px;
-    height: 38px;
+    margin-top: 10px;
     overflow: hidden;
 }
 .m-recomds .tit a,
