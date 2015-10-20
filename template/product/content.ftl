@@ -17,13 +17,14 @@
 		<meta name="description" content="<@seo.description?interpret />" />
 	</#if>
 </@seo>
-<link href="<@website.static />/resources/shop/css/common.css" rel="stylesheet" type="text/css" />
-<link href="<@website.static />/resources/shop/css/product.css" rel="stylesheet" type="text/css" />
+<link href="<@website.static />/resources/shop/css/common.css?v=${version}" rel="stylesheet" type="text/css" />
+<link href="<@website.static />/resources/shop/css/product.css?v=${version}" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<@website.static />/resources/shop/js/jquery.js"></script>
 <script type="text/javascript" src="<@website.static />/resources/shop/js/jquery.tools.js"></script>
 <script type="text/javascript" src="<@website.static />/resources/shop/js/jquery.jqzoom.js"></script>
 <script type="text/javascript" src="<@website.static />/resources/shop/js/jquery.validate.js"></script>
-<script type="text/javascript" src="${base}/resources/shop/js/common.js"></script>
+<#include "/shop/include/common_js.ftl" />
+<script src="<@website.static />/v2/js/common-shop.js?v=${version}"></script>
 <script type="text/javascript">
 
 $.ajax({
@@ -351,10 +352,10 @@ $().ready(function() {
 				$bar.css({top: scrollTop});
 			}
 		} else {
-			$bar.find("li").removeClass("current");
 			$bar.css({position: "absolute", top: barTop});
 		}
 	});
+	$bar.find("li").eq(0).addClass("current");
 	$bar.find("li").click(function() {
 		var tab = $($(this).attr('data-href'));
 		$(window).scrollTop(tab.offset().top - 42);
