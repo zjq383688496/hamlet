@@ -2,16 +2,64 @@
 <html>
 <head>
 <meta charset="utf-8" >
-<title>${message("shop.order.info")}</title>
+<title>订单信息</title>
 
-<link rel="icon" href="<@website.static />/resources/shop/images/favicon.ico" type="image/x-icon" />
-<link href="<@website.static />/resources/shop/css/common.css?v=${version}" rel="stylesheet" type="text/css" />
-<link href="<@website.static />/resources/shop/css/order.css?v=${version}" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="<@website.static />/resources/shop/js/jquery.js"></script>
-<script type="text/javascript" src="<@website.static />/resources/shop/js/jquery.lSelect.js"></script>
-<script type="text/javascript" src="<@website.static />/resources/shop/js/jquery.validate.js"></script>
-<#include "/shop/include/common_js.ftl" />
-<script src="<@website.static />/v2/js/common-shop.js?v=${version}"></script>
+<link rel="icon" href="http://static.hamlet365.com/resources/shop/images/favicon.ico" type="image/x-icon" />
+<link href="http://static.hamlet365.com/resources/shop/css/common.css?v=1445273315758" rel="stylesheet" type="text/css" />
+<link href="http://static.hamlet365.com/resources/shop/css/order.css?v=1445273315758" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://static.hamlet365.com/resources/shop/js/jquery.js"></script>
+<script type="text/javascript" src="http://static.hamlet365.com/resources/shop/js/jquery.lSelect.js"></script>
+<script type="text/javascript" src="http://static.hamlet365.com/resources/shop/js/jquery.validate.js"></script>
+<script type="text/javascript">
+
+var hamlet = {
+	base: "",
+	locale: "zh_CN"
+};
+
+var setting = {
+	priceScale: "2",
+	priceRoundType: "roundHalfUp",
+	currencySign: "￥",
+	currencyUnit: "元",
+	uploadImageExtension: "jpg,jpeg,bmp,gif,png",
+	uploadFlashExtension: "swf,flv",
+	uploadMediaExtension: "swf,flv,mp3,wav,avi,rm,rmvb",
+	uploadFileExtension: "zip,rar,7z,doc,docx,xls,xlsx,ppt,pptx"
+};
+
+var messages = {
+	"shop.message.success": "操作成功",
+	"shop.message.error": "操作错误",
+	"shop.dialog.ok": "确&nbsp;&nbsp;定",
+	"shop.dialog.cancel": "取&nbsp;&nbsp;消",
+	"shop.dialog.deleteConfirm": "您确定要删除吗？",
+	"shop.dialog.clearConfirm": "您确定要清空吗？",
+	"shop.validate.required": "必填",
+	"shop.validate.email": "E-mail格式错误",
+	"shop.validate.url": "网址格式错误",
+	"shop.validate.date": "日期格式错误",
+	"shop.validate.dateISO": "日期格式错误",
+	"shop.validate.pointcard": "信用卡格式错误",
+	"shop.validate.number": "只允许输入数字",
+	"shop.validate.digits": "只允许输入零或正整数",
+	"shop.validate.minlength": "长度不允许小于{0}",
+	"shop.validate.maxlength": "长度不允许大于{0}",
+	"shop.validate.rangelength": "长度必须在{0}-{1}之间",
+	"shop.validate.min": "不允许小于{0}",
+	"shop.validate.max": "不允许大于{0}",
+	"shop.validate.range": "必须在{0}-{1}之间",
+	"shop.validate.accept": "输入后缀错误",
+	"shop.validate.equalTo": "两次输入不一致",
+	"shop.validate.remote": "输入错误",
+	"shop.validate.integer": "只允许输入整数",
+	"shop.validate.positive": "只允许输入正数",
+	"shop.validate.negative": "只允许输入负数",
+	"shop.validate.decimal": "数值超出了允许范围",
+	"shop.validate.pattern": "格式错误",
+	"shop.validate.extension": "文件格式错误"
+};
+</script><script src="http://static.hamlet365.com/v2/js/common-shop.js?v=1445273315758"></script>
 <script type="text/javascript">
 
 $().ready(function() {
@@ -52,23 +100,11 @@ $().ready(function() {
 	$('.head-cart-nav .step ul li:first').next().addClass('current');
 	
 	
-	<@compress single_line = true>
-		<#list paymentMethods as paymentMethod>
-			shippingMethodIds["${paymentMethod.id}"] = [
-				<#list paymentMethod.shippingMethods as shippingMethod>
-					"${shippingMethod.id}"<#if shippingMethod_has_next>,</#if>
-				</#list>
-			];
-		</#list>
-	</@compress>
-	
-	<#if !member.receivers?has_content>
-		$dialogOverlay.show();
-	</#if>
+	shippingMethodIds["1"] = [ "1", "2" ]; shippingMethodIds["2"] = [ "1", "2" ]; shippingMethodIds["3"] = [ "2" ];	
 	
 	// 地区选择
 	$areaId.lSelect({
-		url: "${base}/common/area.action"
+		url: "/common/area.action"
 	});
 	
 	// 收货地址
@@ -77,11 +113,9 @@ $().ready(function() {
 		$receiverId.val($this.attr("receiverId"));
 		$("#receiver li").removeClass("selected");
 		$this.addClass("selected");
-		<#if setting.isInvoiceEnabled>
 			if ($.trim($invoiceTitle.val()) == "") {
 				$invoiceTitle.val($this.find("strong").text());
 			}
-		</#if>
 	});
 	
 	// 其它收货地址
@@ -104,7 +138,7 @@ $().ready(function() {
 		$('#phone',$newReceiver.parent()).val('');
 		$('select[name="areaId_select"]').remove();
 		$areaId.lSelect({
-			url: "${base}/common/area.action"
+			url: "/common/area.action"
 		});
 			
 	});
@@ -114,7 +148,7 @@ $().ready(function() {
 	// 修改收货地址
 	$address_edit.click(function(){
 		$areaId.lSelect({
-			url: "${base}/common/area.action"
+			url: "/common/area.action"
 		});
 		$('#newReceiverSubmit').hide();
 		$('#updateReceiverButton').show();
@@ -170,7 +204,7 @@ $().ready(function() {
 			var $this = $(this);
 			// 表单验证
 			$.ajax({
-				url: "${base}/member/order/update_receiver.action?receiverId="+modifyReceiverId,
+				url: "/member/order/update_receiver.action?receiverId="+modifyReceiverId,
 				type: "POST",
 				data: $receiverForm.serialize(),
 				dataType: "json",
@@ -291,7 +325,7 @@ $().ready(function() {
 						$code.val($couponCode.val());
 						$couponCode.hide();
 						$couponName.text(data.couponName).show();
-						$couponButton.text("${message("shop.order.codeCancel")}");
+						$couponButton.text("取 消");
 						calculate();
 					} else {
 						$.message(data.message);
@@ -305,7 +339,7 @@ $().ready(function() {
 			$code.val("");
 			$couponCode.show();
 			$couponName.hide();
-			$couponButton.text("${message("shop.order.codeConfirm")}");
+			$couponButton.text("确 认");
 			calculate();
 		}
 	});
@@ -320,19 +354,17 @@ $().ready(function() {
 		var $checkedPaymentMethodId = $paymentMethodId.filter(":checked");
 		var $checkedShippingMethodId = $shippingMethodId.filter(":checked");
 		if ($checkedPaymentMethodId.size() == 0) {
-			$.message("warn", "${message("shop.order.paymentMethodRequired")}");
+			$.message("warn", "请选择支付方式");
 			return false;
 		}
 		//if ($checkedShippingMethodId.size() == 0) {
-		//	$.message("warn", "${message("shop.order.shippingMethodRequired")}");
+		//	$.message("warn", "请选择配送方式");
 		//	return false;
 		//}
-		<#if setting.isInvoiceEnabled>
 			if ($isInvoice.prop("checked") && $.trim($invoiceTitle.val()) == "") {
-				$.message("warn", "${message("shop.order.invoiceTileRequired")}");
+				$.message("warn", "请填写发票抬头");
 				return false;
 			}
-		</#if>
 		$.ajax({
 			url: "create.action",
 			type: "POST",
@@ -381,7 +413,7 @@ $().ready(function() {
 				return;
 			}
 			$.ajax({
-				url: "${base}/member/order/save_receiver.action",
+				url: "/member/order/save_receiver.action",
 				type: "POST",
 				data: $receiverForm.serialize(),
 				dataType: "json",
@@ -394,17 +426,15 @@ $().ready(function() {
 						$receiverId.val(data.receiver.id);
 						$("#receiver li").removeClass("selected");
 						if($('input[name="_isDefault"]').val() == true){
-							$receiver.prepend('<li class="selected" receiverId="' + data.receiver.id + '"><div><strong>' + data.receiver.consignee + '<\/strong> ${message("shop.order.receive")}<\/div><div><span>' + data.receiver.areaName  +'</span></div><div><span>'+ data.receiver.address + '<\/span><\/div><div>' + data.receiver.phone + '<\/div><\/li>');
+							$receiver.prepend('<li class="selected" receiverId="' + data.receiver.id + '"><div><strong>' + data.receiver.consignee + '<\/strong> 收<\/div><div><span>' + data.receiver.areaName  +'</span></div><div><span>'+ data.receiver.address + '<\/span><\/div><div>' + data.receiver.phone + '<\/div><\/li>');
 						}else{
-							$('li[name="address_btn"]').before('<li receiverId="' + data.receiver.id + '"><div><strong>' + data.receiver.consignee + '<\/strong> ${message("shop.order.receive")}<\/div><div><span>' + data.receiver.areaName +'</span></div><div><span>'+ data.receiver.address + '<\/span><\/div><div>' + data.receiver.phone + '<\/div><\/li>');
+							$('li[name="address_btn"]').before('<li receiverId="' + data.receiver.id + '"><div><strong>' + data.receiver.consignee + '<\/strong> 收<\/div><div><span>' + data.receiver.areaName +'</span></div><div><span>'+ data.receiver.address + '<\/span><\/div><div>' + data.receiver.phone + '<\/div><\/li>');
 						}
 						$dialogOverlay.hide();
 						$newReceiver.parent().hide();
-						<#if setting.isInvoiceEnabled>
 							if ($.trim($invoiceTitle.val()) == "") {
 								$invoiceTitle.val(data.receiver.consignee);
 							}
-						</#if>
 					} else {
 						$.message(data.message);
 					}
@@ -420,7 +450,104 @@ $().ready(function() {
 </script>
 </head>
 <body>
-<#include "/shop/include/header_cart.ftl" />
+<script type="text/javascript">
+$().ready(function() {
+
+	var $headerLogin = $("#headerLogin");
+	var $headerRegister = $("#headerRegister");
+	var $headerUsername = $("#headerUsername");
+	var $headerLogout = $("#headerLogout");
+	var $productSearchForm = $("#productSearchForm");
+	var $keyword = $("#productSearchForm input");
+	var defaultKeyword = "";
+	
+	var username = getCookie("username");
+	if (username != null) {
+		$headerUsername.text("您好, " + username).show();
+		$headerLogout.show();
+	} else {
+		$headerLogin.show();
+		$headerRegister.show();
+	}
+	
+	$keyword.focus(function() {
+		if ($keyword.val() == defaultKeyword) {
+			$keyword.val("");
+		}
+	});
+	
+	$keyword.blur(function() {
+		if ($keyword.val() == "") {
+			$keyword.val(defaultKeyword);
+		}
+	});
+	
+	$productSearchForm.submit(function() {
+		if ($.trim($keyword.val()) == "" || $keyword.val() == defaultKeyword) {
+			return false;
+		}
+	});
+
+});
+</script>
+
+<!-- header -->
+<div class="header header-simp">
+	<!-- ad -->
+	<div class="layout">
+		<div class="headerAd"></div>
+	</div>
+
+	<!-- top -->
+	<div class="head-top">
+		<div class="layout">
+			<ul class="userinfo">
+				<li class="welcome"><span></span> 欢迎!</li>
+				<li class="login">
+					<a id="headerLogin" style="display:none" href="/login.action">登录</a>
+					<a id="headerRegister" style="display:none" href="/register.action">注册</a>
+					<a id="headerUsername" style="display:none"></a>
+					<a id="headerLogout" style="display:none" href="/logout.action">[退出]</a>
+				</li>
+
+					<li class="buy-protect bldr icon-phone">
+						<span>
+							客服热线:
+							<b class="red">400-8888888</b>
+						</span>
+					</li>
+
+						<li class="buy-protect bldr">
+							<a href="/article/list/3.action" target="_blank">购物指南</a>
+						</li>
+						<li class="buy-protect bldr">
+							<a href="/member/order/list.action" target="_blank">会员中心</a>
+						</li>
+						<li class="buy-protect bldr">
+							<a href="/member/order/list.action" target="_blank">我的订单</a>
+						</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- main -->
+	<div class="head-main layout">
+		<div class="head-logo">
+			<a class="logo-ule" href="/" style="background-image: url(http://static.hamlet365.com/upload/image/logo.gif)"></a>
+		</div>
+
+		<div class="head-cart-nav">
+			<div class="step">
+				<ul>
+					<li><i>1.</i><span>查看购物车</span></li>
+					<li><i>2.</i><span>订单信息</span></li>
+					<li><i>3.</i><span>完成订单</span></li>
+				</ul>
+			</div>
+		</div>
+
+	</div>
+</div>
 
 <div id="dialogOverlay" class="dialogOverlay"></div>
 
@@ -438,27 +565,25 @@ $().ready(function() {
 				<div id="receiver" class="receiver clearfix">
 					<div class="title">
 						<i>*</i>
-						${message("shop.order.receiver")}
-						<a href="/">地址簿</a>
+						收货地址
+						<a href="/cart/list.action" class="gocart">地址簿</a>
 					</div>
 					<ul>
-						<#list member.receivers as receiver>
-							<li<#if receiver_index == 0><#assign defaultReceiver = receiver /> class="selected"<#elseif receiver_index gt 3> class="hidden"</#if> receiverId="${receiver.id}">
-								<div>
-									<strong>${receiver.consignee}</strong> ${message("shop.order.receive")}
-								</div>
-								<div>
-									<span>${receiver.areaName}</span>
-								</div>
-								<div>
-									<span>${receiver.address}</span>
-								</div>
-								<div>
-									${receiver.phone}
-								</div>
-								<a class="address_edit" href="javascript:;">修改</a>
-							</li>
-						</#list>
+						<li class="selected" receiverId="6">
+							<div>
+								<strong>jimmy</strong> 收
+							</div>
+							<div>
+								<span>上海市虹口区</span>
+							</div>
+							<div>
+								<span>jimmy123</span>
+							</div>
+							<div>
+								13585575633
+							</div>
+							<a class="address_edit" href="javascript:;">修改</a>
+						</li>
 						<li name="address_btn">
 							<a href="javascript:;" id="newReceiverButton" class="add_address">增加新地址</a>
 						</li>
@@ -467,12 +592,12 @@ $().ready(function() {
 					</p>
 				</div>
 
-				<div class="newReceiver <#if member.receivers?has_content> hidden </#if>" >
+				<div class="newReceiver hidden">
 					<div class="title">编辑收货人信息</div>
 					<table id="newReceiver">
 						<tr>
 							<th width="100">
-								<span class="requiredField">*</span>${message("shop.order.consignee")}:
+								<span class="requiredField">*</span>收货人:
 							</th>
 							<td>
 								<input type="text" id="consignee" name="consignee" class="text" maxlength="200" />
@@ -480,7 +605,7 @@ $().ready(function() {
 						</tr>
 						<tr>
 							<th>
-								<span class="requiredField">*</span>${message("shop.order.area")}:
+								<span class="requiredField">*</span>地区:
 							</th>
 							<td>
 								<span class="fieldSet">
@@ -490,7 +615,7 @@ $().ready(function() {
 						</tr>
 						<tr>
 							<th>
-								<span class="requiredField">*</span>${message("shop.order.address")}:
+								<span class="requiredField">*</span>地址:
 							</th>
 							<td>
 								<input type="text" id="address" name="address" class="text" maxlength="200" />
@@ -498,7 +623,7 @@ $().ready(function() {
 						</tr>
 						<tr>
 							<th>
-								<span class="requiredField">*</span>${message("shop.order.zipCode")}:
+								<span class="requiredField">*</span>邮编:
 							</th>
 							<td>
 								<input type="text" id="zipCode" name="zipCode" class="text" maxlength="200" />
@@ -506,7 +631,7 @@ $().ready(function() {
 						</tr>
 						<tr>
 							<th>
-								<span class="requiredField">*</span>${message("shop.order.phone")}:
+								<span class="requiredField">*</span>手机/电话:
 							</th>
 							<td>
 								<input type="text" id="phone" name="phone" class="text" maxlength="200" />
@@ -514,7 +639,7 @@ $().ready(function() {
 						</tr>
 						<tr>
 							<th>
-								${message("shop.order.isDefault")}:
+								默认:
 							</th>
 							<td>
 								<input type="checkbox" name="isDefault" value="true" />
@@ -526,19 +651,19 @@ $().ready(function() {
 								
 							</th>
 							<td>
-								<input type="submit" id="newReceiverSubmit" class="button" value="${message("shop.order.ok")}" />
-								<input type="button" id="updateReceiverButton" class="button" value="${message("shop.order.ok")}" style="display:none"/>
-								<input type="button" id="newReceiverCancelButton" class="button" value="${message("shop.order.cancel")}" />
+								<input type="submit" id="newReceiverSubmit" class="button" value="确&nbsp;&nbsp;定" />
+								<input type="button" id="updateReceiverButton" class="button" value="确&nbsp;&nbsp;定" style="display:none"/>
+								<input type="button" id="newReceiverCancelButton" class="button" value="取&nbsp;&nbsp;消" />
 							</td>
 						</tr>
 					</table>
 				</div>
 			</form>
 			<form id="orderForm" action="create.action" method="post">
-				<input type="hidden" id="receiverId" name="receiverId"<#if defaultReceiver??> value="${defaultReceiver.id}"</#if> />
-				<input type="hidden" id="idlist" name="idlist" value="${idlist}" />
-				<input type="hidden" name="cartToken" value="${cartToken}" />
-				<div class="title"><i>*</i>${message("shop.order.paymentMethod")}</div>
+				<input type="hidden" id="receiverId" name="receiverId" value="6" />
+				<input type="hidden" id="idlist" name="idlist" value="168,169,210" />
+				<input type="hidden" name="cartToken" value="aabd64db40e3d5ff98c7dc4dc10bb4ed" />
+				<div class="title"><i>*</i>支付方式</div>
 
 
 				<dl class="gold" style="display:none">
@@ -566,140 +691,94 @@ $().ready(function() {
 						</span>
 					</dd>
 				</dl>
-				<div class="msg">您还需支付 <span id="balance">￥${order.amountPayable}</span> 元，您可选择以下方式继续支付：</div>
+				<div class="msg">您还需支付 <span id="balance">￥338.44</span> 元，您可选择以下方式继续支付：</div>
 
 				<dl id="paymentMethod" class="select">
-					<#list paymentMethods as paymentMethod>
 						<dd>
-							<label for="paymentMethod_${paymentMethod.id}">
-								<input type="radio" id="paymentMethod_${paymentMethod.id}" name="paymentMethodId" value="${paymentMethod.id}" <#if paymentMethod_index == 0 >checked="true"</#if>/>
+							<label for="paymentMethod_1">
+								<input type="radio" id="paymentMethod_1" name="paymentMethodId" value="1" checked="true"/>
 								<span>
-									<#if paymentMethod.icon??>
-										<em style="border-right: none; background: url(${paymentMethod.icon}) center no-repeat;">&nbsp;</em>
-									</#if>
-									<strong>${paymentMethod.name}</strong>
+										<em style="border-right: none; background: url(http://static.hamlet365.com/demo-image/3.0/payment_method/online.gif) center no-repeat;">&nbsp;</em>
+									<strong>网上支付</strong>
 								</span>
-								<span>${abbreviate(paymentMethod.description, 80, "...")}</span>
+								<span>支持支付宝、财付通、以及大多数网上银行支付</span>
 							</label>
 						</dd>
-					</#list>
+						<dd>
+							<label for="paymentMethod_2">
+								<input type="radio" id="paymentMethod_2" name="paymentMethodId" value="2" />
+								<span>
+										<em style="border-right: none; background: url(http://static.hamlet365.com/demo-image/3.0/payment_method/remittance.gif) center no-repeat;">&nbsp;</em>
+									<strong>银行汇款</strong>
+								</span>
+								<span>支持工行、建行、农行汇款支付，收款时间一般为汇款后的1-2个工作日</span>
+							</label>
+						</dd>
+						<dd>
+							<label for="paymentMethod_3">
+								<input type="radio" id="paymentMethod_3" name="paymentMethodId" value="3" />
+								<span>
+										<em style="border-right: none; background: url(http://static.hamlet365.com/demo-image/3.0/payment_method/cash_on_delivery.gif) center no-repeat;">&nbsp;</em>
+									<strong>货到付款</strong>
+								</span>
+								<span>由快递公司送货上门，您签收后直接将货款交付给快递员</span>
+							</label>
+						</dd>
 				</dl>
 
-				<!--<div class="title">配送方式</div>
-				<dl id="shippingMethod" class="select">
-					<dt>${message("shop.order.shippingMethod")}</dt>
-					<#list shippingMethods as shippingMethod>
-						<dd>
-							<label for="shippingMethod_${shippingMethod.id}">
-								<input type="radio" id="shippingMethod_${shippingMethod.id}" name="shippingMethodId" value="${shippingMethod.id}" />
-								<span>
-									<#if shippingMethod.icon??>
-										<em style="border-right: none; background: url(${shippingMethod.icon}) center no-repeat;">&nbsp;</em>
-									</#if>
-									<strong>${shippingMethod.name}</strong>
-								</span>
-								<span>${abbreviate(shippingMethod.description, 80, "...")}</span>
-							</label>
-						</dd>
-					</#list>
-				</dl>-->
-				<!--<#if setting.isInvoiceEnabled>
-					<table>
-						<tr>
-							<th colspan="2">${message("shop.order.invoiceInfo")}</th>
-						</tr>
-						<tr>
-							<td width="100">
-								${message("shop.order.isInvoice")}:
-							</td>
-							<td>
-								<label for="isInvoice">
-									<input type="checkbox" id="isInvoice" name="isInvoice" value="true" />
-									<#if setting.isTaxPriceEnabled>(${message("shop.order.invoiceTax")}: ${setting.taxRate * 100}%)</#if>
-								</label>
-							</td>
-						</tr>
-						<tr id="invoiceTitleTr" class="hidden">
-							<td width="100">
-								${message("shop.order.invoiceTitle")}:
-							</td>
-							<td>
-								<input type="text" id="invoiceTitle" name="invoiceTitle" class="text"<#if defaultReceiver??> value="${defaultReceiver.consignee}"</#if> maxlength="200" />
-							</td>
-						</tr>
-					</table>
-				</#if>-->
 				<div class="title">
 					商品信息
-					<a href="${base}/cart/list.action" class="gocart">返回购物车>></a>
+					<a href="/cart/list.action" class="gocart">返回购物车>></a>
 				</div>
 				<table class="product">
 					<tr>
-						<th width="120">${message("shop.order.image")}</th>
-						<th width="250">${message("shop.order.product")}</th>
-						<th width="110">${message("shop.order.price")}</th>
-						<th width="110">${message("shop.order.quantity")}</th>
+						<th width="120">图片</th>
+						<th width="250">商品</th>
+						<th width="110">价格</th>
+						<th width="110">数量</th>
 						<th width="110">重量 (kg)</th>
-						<th width="110">${message("shop.order.subTotal")}</th>
+						<th width="110">小计</th>
 					</tr>
-					<#list order.orderItems as orderItem>
 						<tr>
 							<td>
-								<img src="<#if orderItem.product.thumbnail??>${orderItem.product.thumbnail}<#else>${setting.defaultThumbnailProductImage}</#if>" alt="${orderItem.product.name}" />
+								<img src="http://7xkqwg.com1.z0.glb.clouddn.com/p-1441689827208-36831-thumbnail.jpg" alt="费罗伦乔慕松露巧克力 礼盒 1000g 法国原装进口 测试商品" />
 							</td>
 							<td>
-								<a href="${base}${orderItem.product.path}" title="${orderItem.product.fullName}" target="_blank">${abbreviate(orderItem.product.fullName, 50, "...")}</a>
-								<#if orderItem.isGift>
-									<span class="red">[${message("shop.order.gift")}]</span>
-								</#if>
+								<a href="/product/content/201507/205.html" title="费罗伦乔慕松露巧克力 礼盒 1000g 法国原装进口 测试商品" target="_blank">费罗伦乔慕松露巧克力 礼盒 1000g 法国原装进口 测试商...</a>
 								
-								<#list orderItem.product.goods.specificationValues as specificationValue>
-								<#if orderItem.product.specificationValues?seq_contains(specificationValue)>
-									 <p>${specificationValue.specification.name} : ${specificationValue.name}</p>
-	                             </#if>
-							</#list>
 							</td>
 							<td>
-								<#if !orderItem.isGift>
-									${currency(orderItem.price, true)}
-								<#else>
-									-
-								</#if>
+									￥0.04
 							</td>
 							<td>
-								${orderItem.quantity}
+								1
 							</td>
 							<td>
-								${orderItem.weight*orderItem.quantity/1000}kg
+								0.1kg
 							</td>
 							<td>
-								<#if !orderItem.isGift>
-									${currency(orderItem.subtotal, true)}
-								<#else>
-									-
-								</#if>
+									￥0.04
 							</td>
 						</tr>
-					</#list>
-				</table>
-
-
-				<div class="summary">
-					<table class="summary-l">
 						<tr>
-							<td width="100">
-								<label>
-									<input type="checkbox" id="isInvoice" name="isInvoice" value="true" />
-									开据发票:
-								</label>
+							<td>
+								<img src="http://7xkqwg.com1.z0.glb.clouddn.com/p-1444789195965-99559-thumbnail.jpg" alt="Truffles 德菲丝 松露形代可可脂巧克力 黑色传统型 250g/盒 比利时进口" />
 							</td>
-							<td id="invoiceTitleTr" class="hidden">
-								<input type="text" id="invoiceTitle" name="invoiceTitle" class="text" maxlength="200" placeholder="填写发票抬头">
-								<select id="invoiceType" name="invoiceType">
-									<option value="1">食品</option>
-									<option value="2">酒</option>
-									<option value="3">饮料</option>
-								</select>
+							<td>
+								<a href="/product/content/201507/279.html" title="Truffles 德菲丝 松露形代可可脂巧克力 黑色传统型 250g/盒 比利时进口" target="_blank">Truffles 德菲丝 松露形代可可脂巧克力 黑色传统型 25...</a>
+								
+							</td>
+							<td>
+									￥18.00
+							</td>
+							<td>
+								1
+							</td>
+							<td>
+								0.25kg
+							</td>
+							<td>
+								￥18.00
 							</td>
 						</tr>
 					</table>
@@ -707,26 +786,24 @@ $().ready(function() {
 					<div class="summary-r">
 						<ul class="statistic">
 							<li>
-								<span>商品售价: </span><em id="freight">${currency(order.amount, true, true)}</em>
+								<span>商品售价: </span><em id="freight">￥${order.amountPayable}元</em>
 							</li>
 							<li>
-								<span>商品优惠: </span><em id="couponDiscount">${currency(order.offsetAmount, true, true)}</em>
+								<span>会员折扣: </span><em id="couponDiscount">￥0.00元</em>
 							</li>
-							<!--
-								<li>
-									<span>金币折扣: </span><em id="amountPayable"></em>
-								</li>
-							-->
 							<li>
-								<span>运费价格: </span><em id="amountPayable">${currency(order.freight, true, true)}</em>
+								<span>商品优惠: </span><em id="amountPayable">￥0.00元</em>
+							</li>
+							<li>
+								<span>支付优惠: </span><em id="amountPayable">￥0.00元</em>
 							</li>
 						</ul>
 					</div>
 				</div>
-				
+
 				<div class="bottom">
 					<div class="price">
-						应付金额: <strong id="amountPayable">${currency(order.amountPayable, true, true)}</strong>
+						应付金额: <strong id="amountPayable"><i>￥</i>${order.amountPayable}元</strong>
 					</div>
 					<a href="javascript:;" id="submit" class="submit">${message("shop.order.submit")}</a>
 				</div>
@@ -735,7 +812,5 @@ $().ready(function() {
 		</div>
 	</div>
 </div>
-
-<#include "/shop/include/footer.ftl" />
 </body>
 </html>

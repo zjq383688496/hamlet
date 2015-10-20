@@ -134,7 +134,7 @@ textarea {
 	top: 0px;
 	_top: expression(documentElement.scrollTop + documentElement.clientHeight - this.offsetHeight);
 	left: 0px;
-	z-index: 99;
+	z-index: 901;
 	filter: alpha(opacity = 30);
 	-moz-opacity: 0.30;
 	opacity: 0.30;
@@ -574,9 +574,7 @@ a.button {
 	padding: 0px 14px;
 	margin-right: 10px;
 	color: #646464;
-	text-shadow: 1px 1px #ffffff;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
+	text-shadow: 1px 1px #fff;
 	border-radius: 2px;
 	outline: none;
 	blur: expression(this.hideFocus = true);
@@ -586,13 +584,7 @@ a.button {
 
 a.button:hover {
 	color: #333333;
-	-webkit-transition: box-shadow linear 0.2s;
-	-moz-transition: box-shadow linear 0.2s;
-	-ms-transition: box-shadow linear 0.2s;
-	-o-transition: box-shadow linear 0.2s;
 	transition: box-shadow linear 0.2s;
-	-webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.05), 0px 0px 6px rgba(0, 0, 0, 0.15);
-	-moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.05), 0px 0px 6px rgba(0, 0, 0, 0.15);
 	box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.05), 0px 0px 6px rgba(0, 0, 0, 0.15);
 	border: 1px solid #cccccc;
 	background-position: 0px -60px;
@@ -648,21 +640,9 @@ input.btn-cancal{
 }
 
 input.button:hover {
-	color: #333333;
-	-webkit-transition: box-shadow linear 0.2s;
-	-moz-transition: box-shadow linear 0.2s;
-	-ms-transition: box-shadow linear 0.2s;
-	-o-transition: box-shadow linear 0.2s;
-	transition: box-shadow linear 0.2s;
-	-webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.05), 0px 0px 6px rgba(0, 0, 0, 0.15);
-	-moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.05), 0px 0px 6px rgba(0, 0, 0, 0.15);
-	box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.05), 0px 0px 6px rgba(0, 0, 0, 0.15);
-	border: 1px solid #cccccc;
-	background-position: 0px -60px;
 }
 
 input.button:active {
-	background-position: 0px -90px;
 }
 
 input.button:disabled {
@@ -672,12 +652,7 @@ input.button:disabled {
 input.button:disabled:hover, input.button:disabled:active {
 	color: #bbbbbb;
 	-webkit-transition: none;
-	-moz-transition: none;
-	-ms-transition: none;
-	-o-transition: none;
 	transition: none;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
 	box-shadow: none;
 	border: 1px solid #dcdcdc;
 	background-position: 0px 0px;
