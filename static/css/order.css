@@ -188,10 +188,14 @@ div.order .info .receiver li span {
 }
 
 div.order .info .receiver a.address_edit {
+	display: none;
 	position: absolute;
 	right: 20px;
 	bottom: 10px;
 	color: #005aa0;
+}
+div.order .info .receiver li:hover a.address_edit {
+	display: block;
 }
 
 div.order .info .receiver a.address_edit:hover {
@@ -478,13 +482,13 @@ div.order .info .submit {
 	clear: both;
 	float: right;
 	display: block;
-	width: 100px;
+	width: 200px;
 	height: 40px;
 	line-height: 40px;
 	color: #fff;
 	text-align: center;
-	background-color: #ef0101;
-	font-size: 14px;
+	background-color: #f90;
+	font-size: 16px;
 }
 
 div.order .dialog {

@@ -1480,6 +1480,7 @@ div.productContent .bar ul {
 	width: 980px;
 	height: 42px;
 	background-color: #f7f7f7;
+	border: 1px solid #ddd;
 }
 
 div.productContent .bar li {
@@ -1489,13 +1490,16 @@ div.productContent .bar li {
 	float: left;
 	text-align: center;
 	font-size: 16px;
-	border-top: 2px solid #fff;
+	border-top: 1px solid #f7f7f7;
+	border-right: 1px solid #ddd;
 }
 
 div.productContent .bar li.current,
 div.productContent .bar li:hover {
 	border-top: 2px solid #ef0101;
 	background-color: #fff;
+	margin-top: -1px;
+	height: 42px;
 }
 div.productContent .bar li.current a,
 div.productContent .bar li:hover a {
