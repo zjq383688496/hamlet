@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>绑定手机</title>
+
+<link rel="icon" href="http://static.hamlet365.com/resources/shop/images/favicon.ico" type="image/x-icon" />
+<link href="http://static.hamlet365.com/resources/shop/css/common.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.bind-box {
+	width: 400px;
+	padding: 10px;
+}
+.time-line {
+    width: 400px;
+    height: 40px;
+    overflow: hidden;
+}
+.time-line ul {
+    overflow: hidden;
+}
+.time-line li {
+    position: relative;
+    float: left;
+    width: 140px;
+    height: 20px;
+    line-height: 20px;
+    padding: 10px 30px;
+    font-family: Microsoft YaHei;
+    border-radius: 2px;
+    -webkit-transition: all ease 0.6s;
+    transition: all ease 0.6s;
+}
+.time-line em {
+    float: left;
+    display: block;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    margin-right: 10px;
+    border: 1px solid #ef0101;
+    border-radius: 100%;
+    text-align: center;
+    font-size: 14px;
+    -webkit-transition: all ease 0.6s;
+    transition: all ease 0.6s;
+}
+.time-line div {
+    float: left;
+    padding-left: 10px;
+    font-size: 14px;
+}
+.time-line .tl-ok {
+    background-color: #fddab4;
+}
+.time-line .tl-ok em,
+.time-line .tl-ok div {
+    color: #ef0101;
+}
+.time-line .tl-now {
+    background-color: #fca44a;
+}
+.time-line .tl-now em,
+.time-line .tl-now div {
+	border-color: #fff;
+    color: #fff;
+}
+
+.input-info {
+    margin-top: 20px;
+}
+.input-info .ii-tr {
+    width: 400px;
+    height: 70px;
+}
+.input-info .ii-tr-msg {
+    display: block;
+    width: 300px;
+    padding-left: 120px;
+    line-height: 22px;
+    color: #666666;
+}
+.input-info .ii-name,
+.input-info .ii-ipt,
+.input-info .ii-msg {
+    float: left;
+    height: 36px;
+}
+.input-info .ii-name {
+    width: 80px;
+    line-height: 36px;
+    padding-right: 20px;
+    text-align: right;
+    font-size: 14px;
+}
+.input-info .ii-ipt {
+    width: 300px;
+}
+.input-info .ii-ipt span {
+    display: block;
+    height: 36px;
+    line-height: 36px;
+    color: #666666;
+    font-size: 18px;
+}
+.input-info .ii-msg {
+    width: 300px;
+    height: 16px;
+    line-height: 16px;
+    margin-left: 100px;
+    padding: 6px 0;
+    color: #666666;
+    display: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.input-info .ii-msg span,
+.input-info .ii-msg a {
+    display: block;
+    height: 16px;
+    line-height: 16px;
+    font-size: 14px;
+}
+.input-info .ii-msg a {
+    color: #0e6ebf;
+}
+.input-info .icon-sus,
+.input-info .icon-cue,
+.input-info .icon-err {
+}
+.input-info .icon-sus {
+    color: #569e1e;
+}
+.input-info .icon-cue {
+}
+.input-info .icon-err {
+    color: #ef0101;
+}
+.input-info .ipt-txt {
+    width: 278px;
+    padding: 8px 10px;
+    height: 18px;
+    line-height: 18px;
+    font-size: 14px;
+    -webkit-transition: all ease 0.3s;
+    transition: all ease 0.3s;
+    border: 1px solid #bdbdbd;
+}
+.input-info .ipt-txt:focus {
+    padding: 8px 10px;
+    height: 18px;
+    line-height: 18px;
+    font-size: 14px;
+    -webkit-transition: all ease 0.3s;
+    transition: all ease 0.3s;
+    border: 1px solid #99ddff;
+    -webkit-box-shadow: inset 0 0 8px #adf;
+    box-shadow: inset 0 0 8px #adf;
+}
+.input-info .ipt-v,
+.input-info .ipt-c {
+    width: 120px;
+    float: left;
+    margin-right: 10px;
+}
+.input-info .valid-code-img {
+    float: left;
+    width: 148px;
+    height: 36px;
+}
+.input-info .btn-check-code {
+    float: left;
+    width: 146px;
+    height: 34px;
+    line-height: 34px;
+    display: block;
+    border-radius: 4px;
+    text-align: center;
+    color: #666666;
+    border: 1px solid #bdbdbd;
+    background-color: #ffffff;
+    -webkit-transition: all ease 0.15s;
+    transition: all ease 0.15s;
+    font-size: 14px;
+}
+.input-info .btn-check-code:hover {
+    color: #ffffff;
+    border: 1px solid #a71226;
+    background-color: #d10208;
+    cursor: default;
+}
+.input-info .ipt-err {
+    padding: 8px 10px;
+    height: 18px;
+    line-height: 18px;
+    font-size: 14px;
+    -webkit-transition: all ease 0.3s;
+    transition: all ease 0.3s;
+    border: 1px solid #ed4545;
+}
+.input-info .ipt-off {
+    padding: 8px 10px;
+    height: 18px;
+    line-height: 18px;
+    font-size: 14px;
+    -webkit-transition: all ease 0.3s;
+    transition: all ease 0.3s;
+    background-color: #f3f3f3;
+}
+.input-info .btn-box {
+    width: 300px;
+    padding-left: 100px;
+    margin-top: 30px;
+}
+.input-info .btn-red {
+    width: 300px;
+    height: 40px;
+    line-height: 40px;
+    display: block;
+    border-radius: 4px;
+    text-align: center;
+    color: #ffffff;
+    background-color: #ef0101;
+    font-family: Microsoft YaHei;
+    font-size: 16px;
+}
+.input-info .btn-off {
+    color: #c4c4c4;
+    border: 1px solid #d8d8d8;
+    background-color: #ebebeb;
+}
+.input-info .btn-off:hover {
+    color: #c4c4c4;
+    border: 1px solid #d8d8d8;
+    background-color: #ebebeb;
+    cursor: default;
+}
+
+
+.text-box {
+    margin-top: 40px;
+}
+.text-box h4 {
+    height: 26px;
+    line-height: 26px;
+    padding-top: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    font-family: Microsoft YaHei;
+}
+.text-box p {
+    line-height: 20px;
+    color: #666666;
+}
+.text-box .icon-point {
+    padding-left: 13px;
+    background-position: 0 10px;
+}
+.text-box .red {
+    color: #c52e15;
+}
+.explain-box {
+    padding-bottom: 12px;
+}
+.question-box {
+    border-top: 1px dotted #ccc;
+}
+</style>
+<script type="text/javascript" src="http://static.hamlet365.com/resources/shop/js/jquery.js"></script>
+<script type="text/javascript">
+$().ready(function() {
+	
+});
+</script>
+</head>
+<body>
+
+<div class="bind-box">
+	<!-- 验证身份 -->
+	<div class="bind-phone">
+		<!-- 时间线 -->
+		<div class="time-line">
+			<ul>
+				<li class="tl-ok tl-noarr">
+					<em>1</em>
+					<div>验证身份</div>
+				</li>
+				<li class="tl-now">
+					<em>2</em>
+					<div>修改手机</div>
+				</li>
+			</ul>
+		</div>
+
+		<!-- 输入信息 -->
+		<form id="bind-form" name="MobileForm" action="/" method="post">
+			<div class="input-info">
+				<div class="ii-tr">
+					<div class="ii-name">
+						<label for="user-phone-now">手机号</label>
+					</div>
+					<div class="ii-ipt">
+						<input type="text" id="check-code" name="validCode" class="ipt-txt" placeholder="手机号" maxlength="11">
+					</div>
+					<div class="ii-msg" style="display: block;">
+						<span class="icon-sus">成功</span>
+					</div>
+				</div>
+
+				<div class="ii-tr">
+					<div class="ii-name">
+						<label for="user-phone-now">手机号</label>
+					</div>
+					<div class="ii-ipt">
+						<span>135****5633</span>
+					</div>
+					<div class="ii-msg"></div>
+				</div>
+
+				<div class="ii-tr ii-ft" checkcode="1">
+					<div class="ii-name">
+						<label for="check-code">校验码</label>
+					</div>
+					<div class="ii-ipt">
+						<input type="text" id="check-code" name="validCode" class="ipt-txt ipt-c" placeholder="请输入6位校验码" maxlength="6">
+						<input type="hidden" name="client" value="changeMobile" /><a id="btn-check-code" class="btn-check-code">获取校验码</a>
+					</div>
+					<div class="ii-msg" style="display: block;">
+						<span class="icon-err">校验码不能为空</span>
+					</div>
+				</div>
+
+				<div class="ii-tr ii-ft" checkcode="1">
+					<div class="ii-name">
+						<label for="check-code">校验码</label>
+					</div>
+					<div class="ii-ipt">
+						<input type="text" id="check-code" name="validCode" class="ipt-txt ipt-c" placeholder="请输入6位校验码" maxlength="6">
+						<input type="hidden" name="client" value="changeMobile" /><a id="btn-check-code" class="btn-check-code btn-off">13秒后重新获取校验码</a>
+					</div>
+					<div class="ii-msg" style="display: block;">
+						<span class="icon-err">校验码不能为空</span>
+					</div>
+				</div>
+
+				<div class="btn-box">
+					<a id="btn-submit" class="btn-red">下一步</a>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- 文本说明 -->
+	<div class="text-box">
+		<div class="question-box">
+			<h4>为什么要将进行身份验证？</h4>
+			<p class="icon-point">为保障您的账户信息安全，在变更账户中的重要信息时需要进行身份验证，感谢您的理解和支持。</p>
+			<p class="icon-point">验证身份遇到问题？请发送用户名、<span class="red">手机号</span>、历史订单发票至客服邮箱，客服将尽快联系您。</p>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
