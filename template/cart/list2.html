@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>购物车</title>
+
+<link rel="icon" href="http://static.hamlet365.com/resources/shop/images/favicon.ico" type="image/x-icon" />
+<link href="http://static.hamlet365.com/resources/shop/css/common.css" rel="stylesheet" type="text/css" />
+<link href="http://static.hamlet365.com/resources/shop/css/cart.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://static.hamlet365.com/resources/shop/js/jquery.js"></script>
+<script type="text/javascript" src="/resources/shop/js/common.js"></script>
+<script type="text/javascript">
+$().ready(function() {
+
+	var $quantity = $("input[name='quantity']");
+	var $increase = $("span.increase");
+	var $decrease = $("span.decrease");
+	var $delete = $("a.delete");
+	var $giftItems = $("#giftItems");
+	var $promotion = $("#promotion");
+	var $effectivePoint = $("#effectivePoint");
+	var $effectivePrice = $("#effectivePrice");
+	var $clear = $("#clear");
+	var $submit = $("#submit");
+	var timeouts = {};
+	
+	// 初始数量
+	$quantity.each(function() {
+		var $this = $(this);
+		$this.data("value", $this.val());
+	});
+	
+	// 数量
+	$quantity.keypress(function(event) {
+		var key = event.keyCode ? event.keyCode : event.which;
+		if ((key >= 48 && key <= 57) || key==8) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+	
+	// 增加数量
+	$increase.click(function() {
+		var $quantity = $(this).parent().siblings("input");
+		var quantity = $quantity.val();
+		if (/^\d*[1-9]\d*$/.test(quantity)) {
+			$quantity.val(parseInt(quantity) + 1);
+		} else {
+			$quantity.val(1);
+		}
+		edit($quantity);
+	});
+	
+	// 减少数量
+	$decrease.click(function() {
+		var $quantity = $(this).parent().siblings("input");
+		var quantity = $quantity.val();
+		if (/^\d*[1-9]\d*$/.test(quantity) && parseInt(quantity) > 1) {
+			$quantity.val(parseInt(quantity) - 1);
+		} else {
+			$quantity.val(1);
+		}
+		edit($quantity);
+	});
+	
+	// 编辑数量
+	$quantity.bind("input propertychange change", function(event) {
+		if (event.type != "propertychange" || event.originalEvent.propertyName == "value") {
+			edit($(this));
+		}
+	});
+	
+	// 编辑数量
+	function edit($quantity) {
+		var quantity = $quantity.val();
+		if (/^\d*[1-9]\d*$/.test(quantity)) {
+			var $tr = $quantity.closest("tr");
+			var id = $tr.find("input[name='id']").val();
+			clearTimeout(timeouts[id]);
+			timeouts[id] = setTimeout(function() {
+				$.ajax({
+					url: "edit.action",
+					type: "POST",
+					data: {id: id, quantity: quantity},
+					dataType: "json",
+					cache: false,
+					beforeSend: function() {
+						$submit.prop("disabled", true);
+					},
+					success: function(data) {
+						if (data.message.type == "success") {
+							$quantity.data("value", quantity);
+							$tr.find("span.subtotal").text(currency(data.subtotal, true));
+							if (data.giftItems != null && data.giftItems.length > 0) {
+								$giftItems.html('<dt>赠品:<\/dt>');
+								$.each(data.giftItems, function(i, giftItem) { 
+									$giftItems.append('<dd><a href="' + giftItem.gift.path + '" title="' + giftItem.gift.fullName + '" target="_blank">' + giftItem.gift.fullName.substring(0, 50) + ' * ' + giftItem.quantity + '<\/a><\/dd>');
+								});
+								$giftItems.show();
+							} else {
+								$giftItems.hide();
+							}
+							if (data.promotions != null && data.promotions.length > 0) {
+								var promotionName = "";
+								$.each(data.promotions, function(i, promotion) { 
+									promotionName += promotion.name + " ";
+								});
+								$promotion.text(promotionName);
+							} else {
+								$promotion.empty();
+							}
+							if (!data.isLowStock) {
+								$tr.find("span.lowStock").remove();
+							}
+							$effectivePoint.text(data.effectivePoint);
+							$effectivePrice.text(currency(data.effectivePrice, true, true));
+						} else if (data.message.type == "warn") {
+							$.message(data.message);
+							$quantity.val($quantity.data("value"));
+						} else if (data.message.type == "error") {
+							$.message(data.message);
+							$quantity.val($quantity.data("value"));
+							setTimeout(function() {
+								location.reload(true);
+							}, 3000);
+						}
+					},
+					complete: function() {
+						$submit.prop("disabled", false);
+					}
+				});
+			}, 500);
+		} else {
+			$quantity.val($quantity.data("value"));
+		}
+	}
+
+	// 删除
+	$delete.click(function() {
+		if (confirm("您确定要删除吗？")) {
+			var $this = $(this);
+			var $tr = $this.closest("tr");
+			var id = $tr.find("input[name='id']").val();
+			clearTimeout(timeouts[id]);
+			$.ajax({
+				url: "delete.action",
+				type: "POST",
+				data: {id: id},
+				dataType: "json",
+				cache: false,
+				beforeSend: function() {
+					$submit.prop("disabled", true);
+				},
+				success: function(data) {
+					if (data.message.type == "success") {
+						if (data.quantity > 0) {
+							$tr.remove();
+							if (data.giftItems != null && data.giftItems.length > 0) {
+								$giftItems.html('<dt>赠品:<\/dt>');
+								$.each(data.giftItems, function(i, giftItem) { 
+									$giftItems.append('<dd><a href="' + giftItem.gift.path + '" title="' + giftItem.gift.fullName + '" target="_blank">' + giftItem.gift.fullName.substring(0, 50) + ' * ' + giftItem.quantity + '<\/a><\/dd>');
+								});
+								$giftItems.show();
+							} else {
+								$giftItems.hide();
+							}
+							if (data.promotions != null && data.promotions.length > 0) {
+								var promotionName = "";
+								$.each(data.promotions, function(i, promotion) { 
+									promotionName += promotion.name + " ";
+								});
+								$promotion.text(promotionName);
+							} else {
+								$promotion.empty();
+							}
+							$effectivePoint.text(data.effectivePoint);
+							$effectivePrice.text(currency(data.effectivePrice, true, true));
+						} else {
+							location.reload(true);
+						}
+					} else {
+						$.message(data.message);
+						setTimeout(function() {
+							location.reload(true);
+						}, 3000);
+					}
+				},
+				complete: function() {
+					$submit.prop("disabled", false);
+				}
+			});
+		}
+		return false;
+	});
+	
+	// 清空
+	$clear.click(function() {
+		if (confirm("您确定要清空吗？")) {
+			$.each(timeouts, function(i, timeout) {
+				clearTimeout(timeout);
+			});
+			$.ajax({
+				url: "clear.action",
+				type: "POST",
+				dataType: "json",
+				cache: false,
+				success: function(data) {
+					location.reload(true);
+				}
+			});
+		}
+		return false;
+	});
+	
+	// 提交
+	$submit.click(function() {
+		if (!$.checkLogin()) {
+			$.redirectLogin("/cart/list.action", "必须登录后才能提交订单");
+			return false;
+		}
+	});
+	
+});
+</script>
+</head>
+<body>
+<script type="text/javascript">
+$().ready(function() {
+
+	var $headerLogin = $("#headerLogin");
+	var $headerRegister = $("#headerRegister");
+	var $headerUsername = $("#headerUsername");
+	var $headerLogout = $("#headerLogout");
+	var $productSearchForm = $("#productSearchForm");
+	var $keyword = $("#productSearchForm input");
+	var defaultKeyword = "";
+	
+	var username = getCookie("username");
+	if (username != null) {
+		$headerUsername.text("您好, " + username).show();
+		$headerLogout.show();
+	} else {
+		$headerLogin.show();
+		$headerRegister.show();
+	}
+	
+	$keyword.focus(function() {
+		if ($keyword.val() == defaultKeyword) {
+			$keyword.val("");
+		}
+	});
+	
+	$keyword.blur(function() {
+		if ($keyword.val() == "") {
+			$keyword.val(defaultKeyword);
+		}
+	});
+	
+	$productSearchForm.submit(function() {
+		if ($.trim($keyword.val()) == "" || $keyword.val() == defaultKeyword) {
+			return false;
+		}
+	});
+
+});
+</script>
+
+<!-- header -->
+<div class="header header-simp">
+
+	<!-- top -->
+	<div class="head-top">
+		<div class="layout">
+			<ul class="userinfo">
+				<li class="welcome"><span></span> 欢迎!</li>
+				<li class="login">
+					<a id="headerLogin" style="display:none" href="/login.action">登录</a>
+					<a id="headerRegister" style="display:none" href="/register.action">注册</a>
+					<a id="headerUsername" style="display:none"></a>
+					<a id="headerLogout" style="display:none" href="/logout.action">[退出]</a>
+				</li>
+
+					<li class="buy-protect bldr icon-phone">
+						<span>
+							客服热线:
+							<b class="red">400-8888888</b>
+						</span>
+					</li>
+
+						<li class="buy-protect bldr">
+							<a href="/member/index.action">会员中心</a>
+						</li>
+						<li class="buy-protect bldr">
+							<a href="/article/list/3.action">购物指南</a>
+						</li>
+						<li class="buy-protect bldr">
+							<a href="/article/list/7.action">关于我们</a>
+						</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- main -->
+	<div class="head-main layout">
+		<div class="head-logo">
+			<a class="logo-ule" href="/" style="background-image: url(http://static.hamlet365.com/upload/image/logo.gif)"></a>
+		</div>
+		<div class="head-cart-nav">
+			<div class="step">
+				<ul>
+					<li class="current"><i>1.</i><span>订单信息</span></li>
+					<li><i>2.</i><span>查看购物车</span></li>
+					<li><i>3.</i><span>完成订单</span></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="cart">
+	<div class="container">
+		<p class="cart-error">
+			<span>您的购物车内尚未添加商品，请尽情选购您要购买的商品吧！祝您购物愉快！</span>
+			<a href="/">去购物</a>
+		</p>
+		<div class="title">
+			<b>全部商品</b>
+			<div>
+				成为会员可为您节约 <span class="red">¥30</span>
+				<a href="">立即开通>></a>
+			</div>
+		</div>
+		<table id="cartList">
+			<tr>
+				<th width="40">
+					<input type="checkbox" id="selectAll" name="selectAll">
+				</th>
+				<th width="120">图片</th>
+				<th width="210">商品</th>
+				<th width="100">单价 (元)</th>
+				<th width="100">数量</th>
+				<th width="100">重量 (kg)</th>
+				<th width="100">金额 (元)</th>
+				<th>操作</th>
+			</tr>
+			<tr>
+				<td>
+					<input type="checkbox" name="selectNode" data-id="9">
+				</td>
+				<td>
+					<input type="hidden" name="id" value="9" />
+					<img src="http://7xkqwg.com1.z0.glb.clouddn.com/p-1440134139489-66980-thumbnail.jpg" alt="法国进口 费罗伦乔慕大自然 松露巧克力 1kg 普盒 礼盒 加冰袋，顺丰包邮" />
+				</td>
+				<td class="td-info">
+					<a href="/product/content/201507/204.html" title="法国进口 费罗伦乔慕大自然 松露巧克力 1kg 普盒 礼盒 加冰袋，顺丰包邮[粉红色 大]" target="_blank">法国进口 费罗伦乔慕大自然 松露巧克力 1kg 普盒 礼盒 加冰袋，顺...</a>
+					<p>颜色: XXX</p>
+					<p>规格: XXX</p>
+				</td>
+				<td>
+					￥468.00
+				</td>
+				<td class="quantity">
+					<span class="increase"><</span>
+					<input type="text" name="quantity" value="2" maxlength="4" onpaste="return false;" />
+					<span class="decrease">></span>
+				</td>
+				<td>
+					1.665kg
+				</td>
+				<td>
+					<b class="subtotal">￥936.00</b>
+				</td>
+				<td class="td-ctrl">
+					<a href="javascript:;" class="delete">删除</a>
+					<a href="javascript:;" class="add-wait">加入待购清单</a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="checkbox" name="selectNode" data-id="8">
+				</td>
+				<td>
+					<input type="hidden" name="id" value="8" />
+					<img src="http://7xkqwg.com1.z0.glb.clouddn.com/p-1440134020160-41826-thumbnail.jpg" alt="松露巧克力 黑巧克力 法国原装进口 费罗伦乔慕松露巧克力 礼盒 1000g" />
+				</td>
+				<td class="td-info">
+					<a href="/product/content/201507/205.html" title="松露巧克力 黑巧克力 法国原装进口 费罗伦乔慕松露巧克力 礼盒 1000g[粉红色 中等]" target="_blank">松露巧克力 黑巧克力 法国原装进口 费罗伦乔慕松露巧克力 礼盒 1...</a>
+					<p>颜色: XXX</p>
+				</td>
+				<td class="price">
+					<p class="del">￥558.00</p>
+					<p>
+						￥358.00
+						<a>
+							<i></i>
+							<span>
+								<s></s>
+								<b>会员优惠：<strong>¥30</strong></b>
+								<b>商品优惠：金秋特惠 <strong>¥20</strong></b>
+							</span>
+						</a>
+					</p>
+				</td>
+				<td class="quantity">
+					<span class="increase"><</span>
+					<input type="text" name="quantity" value="2" maxlength="4" onpaste="return false;" />
+					<span class="decrease">></span>
+				</td>
+				<td>
+					1.665kg
+				</td>
+				<td class="price">
+					<p class="del">￥558.00</p>
+					<p>
+						￥358.00
+						<a>
+							<i></i>
+							<span>
+								<s></s>
+								<b>会员优惠：<strong>¥30</strong></b>
+								<b>商品优惠：金秋特惠 <strong>¥20</strong></b>
+							</span>
+						</a>
+					</p>
+				</td>
+				<td class="td-ctrl">
+					<div class="del-model show">
+						<a href="javascript:;" class="delete">删除</a>
+						<div class="float-box">
+							<i></i>
+							<p>要删除这个商品吗？</p>
+							<a href="javascript:;" class="btn-red">删除</a>
+							<a href="javascript:;" class="btn-gray">取消</a>
+						</div>
+					</div>
+					<a href="javascript:;" class="add-wait">加入待购清单</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="total-box">
+		<div class="total total-fixed">
+			<div class="container">
+				<div class="total-left">
+					<label>
+						<input type="checkbox" id="barSelectAll" name="barSelectAll">
+						全选
+					</label>
+					<a href="javascript:;" id="delSelect" class="delete">删除所选</a>
+					<a href="javascript:;" id="clear" class="clear">清空购物车</a>
+				</div>
+				<div class="total-right">
+					<a href="/member/order/info.action" id="submit" class="submit">提交订单</a>
+					<div class="content">
+						<div class="price">
+							共计 <span>3</span> 件商品  总价（不含运费）：
+							<strong id="effectivePrice">￥1294.00元</strong>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+<!-- footer -->
+<div class="footer">
+	
+	<!-- nav -->
+	<div class="footer-main">
+		<div class="container">
+			<ul class="bottomNav">
+						<li>
+							<a href="#">关于我们</a>
+							|
+						</li>
+						<li>
+							<a href="#">联系我们</a>
+							|
+						</li>
+						<li>
+							<a href="#">诚聘英才</a>
+							|
+						</li>
+						<li>
+							<a href="#">法律声明</a>
+							|
+						</li>
+						<li>
+							<a href="/friend_link.action">友情链接</a>
+							|
+						</li>
+						<li>
+							<a href="/article/list/4.action" target="_blank">支付方式</a>
+							|
+						</li>
+						<li>
+							<a href="/article/list/5.action" target="_blank">配送方式</a>
+							
+						</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- Copyright -->
+	<div class="container">
+		<div class="copyright">Copyright © 2005-2013 哈姆雷特精品会员店 版权所有</div>
+	</div>
+
+</div></body>
+</html>
