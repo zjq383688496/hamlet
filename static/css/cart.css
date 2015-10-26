@@ -30,7 +30,8 @@ div.cart .cart-error a {
 	height: 30px;
 	line-height: 30px;
 	margin: 20px auto 0;
-	background-color: #ddd;
+	color: #fff;
+	background-color: #ef0101;
 }
 
 div.cart .title {
